@@ -52,18 +52,43 @@ float Y_currentPosition()
 }
 void move_home()
 {
+	Serial.println("Move Home");
+	Serial.println(X_currentPosition());
+	Serial.println(Y_currentPosition());
+
 	stepper_X.moveTo(0);
 	stepper_Y.moveTo(0);
+	while((stepper_X.distanceToGo()!=0)||(stepper_Y.distanceToGo()!=0))
+	{
+		if (stepper_X.distanceToGo()!=0)
+		{
+			stepper_X.run();
+		}		
+
+		if (stepper_Y.distanceToGo()!=0)
+		{
+			stepper_Y.run();
+		}
+		delay(2);
+
+	}
+	Serial.println("On Home");
+	
 }
 void sense_home()
-{
-	stepper_Y.move(-200*steps_per_mm);	
+{	
+	Serial.println("Sense Home");
+
+	stepper_X.setSpeed(-5*steps_per_mm);
+	stepper_Y.setSpeed(5*steps_per_mm);
+
+	stepper_Y.move(200*steps_per_mm);
 	while (digitalRead(SW_PIN_Y))
 	{
 		stepper_Y.run();
 		delay(1);
 	}
-	stepper_Y.setCurrentPosition(0);
+	stepper_Y.setCurrentPosition(135*steps_per_mm);
 	
 	stepper_X.move(-500*steps_per_mm);
 	while (digitalRead(SW_PIN_X))
@@ -72,6 +97,10 @@ void sense_home()
 		delay(1);
 	}
 	stepper_X.setCurrentPosition(-15*steps_per_mm);
+
+	stepper_X.setSpeed(50*steps_per_mm);
+	stepper_Y.setSpeed(50*steps_per_mm);
+
 	move_home();
 }
 void stepper_on()
@@ -116,8 +145,8 @@ void setup(){
 	pinMode(EN_PIN, OUTPUT);
 	digitalWrite(EN_PIN, HIGH); //deactivate driver (LOW active)
 
-	#define speedMultiplier 400		// 100mm/s @ 80 steps/mm
-	#define accelMultiplier 2000	// 2000mm/s^2
+	#define speedMultiplier 200		// 100mm/s @ 80 steps/mm
+	#define accelMultiplier 1000	// 2000mm/s^2
 
 	stepper_X.setMaxSpeed(speedMultiplier*steps_per_mm); 
 	stepper_X.setAcceleration(accelMultiplier*steps_per_mm);
@@ -127,19 +156,20 @@ void setup(){
 
 	stepper_Y.setMaxSpeed(speedMultiplier*steps_per_mm); // 100mm/s @ 80 steps/mm
 	stepper_Y.setAcceleration(accelMultiplier*steps_per_mm); // 2000mm/s^2
-	stepper_Y.setPinsInverted(true,false,true);
+	stepper_Y.setPinsInverted(false,false,true);
 	stepper_Y.setMinPulseWidth(100);
+	
 		
 	digitalWrite(EN_PIN, LOW); //activate driver
 	
-	stepper_X.move(50*steps_per_mm);
-	stepper_X.setSpeed(20*steps_per_mm);
-	stepper_X.runSpeedToPosition();
+	//stepper_X.move(50*steps_per_mm);
+	stepper_X.setSpeed(50*steps_per_mm);
+	//stepper_X.runSpeedToPosition();
 	//stepper_X.runToPosition();
 	
-	stepper_Y.move(50*steps_per_mm);
-	stepper_Y.setSpeed(20*steps_per_mm);
-	stepper_Y.runSpeedToPosition();
+	//stepper_Y.move(50*steps_per_mm);
+	stepper_Y.setSpeed(50*steps_per_mm);
+	//stepper_Y.runSpeedToPosition();
 	//stepper_Y.runToPosition();
 	
 	sense_home();
