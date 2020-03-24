@@ -26,7 +26,8 @@ AccelStepper stepper_X(AccelStepper::DRIVER,STEP_PIN_X,DIR_PIN_X);
 AccelStepper stepper_Y(AccelStepper::DRIVER,STEP_PIN_Y,DIR_PIN_Y);
 
 							//(steps per rotation*micro stepping)/(toothCount*toothSeperation)
-constexpr uint32_t steps_per_mm = (200*8)/(30*2);//=
+constexpr uint32_t steps_per_mm_X = (200*8)/(20*2);//=
+constexpr uint32_t steps_per_mm_Y = (200*8)/(30*2);//=
 
 bool dir = true;
 
@@ -36,19 +37,19 @@ const int posGap = 47;//mm
 
 void X_moveTo(float mm)
 {
-	stepper_X.moveTo((int)mm*steps_per_mm);
+	stepper_X.moveTo((int)mm*steps_per_mm_X);
 }
 float X_currentPosition()
 {
-	return (float)stepper_X.currentPosition()/steps_per_mm;
+	return (float)stepper_X.currentPosition()/steps_per_mm_X;
 }
 void Y_moveTo(float mm)
 {	
-	stepper_Y.moveTo((long)mm*steps_per_mm);
+	stepper_Y.moveTo((long)mm*steps_per_mm_Y);
 }
 float Y_currentPosition()
 {
-	return (float)stepper_Y.currentPosition()/steps_per_mm;
+	return (float)stepper_Y.currentPosition()/steps_per_mm_Y;
 }
 void move_home()
 {
@@ -79,27 +80,27 @@ void sense_home()
 {	
 	Serial.println("Sense Home");
 
-	stepper_X.setSpeed(-5*steps_per_mm);
-	stepper_Y.setSpeed(5*steps_per_mm);
+	stepper_X.setSpeed(-5*steps_per_mm_X);
+	stepper_Y.setSpeed(5*steps_per_mm_Y);
 
-	stepper_Y.move(200*steps_per_mm);
+	stepper_Y.move(200*steps_per_mm_Y);
 	while (digitalRead(SW_PIN_Y))
 	{
 		stepper_Y.run();
 		delay(1);
 	}
-	stepper_Y.setCurrentPosition(135*steps_per_mm);
+	stepper_Y.setCurrentPosition(115*steps_per_mm_Y);
 	
-	stepper_X.move(-500*steps_per_mm);
+	stepper_X.move(-500*steps_per_mm_X);
 	while (digitalRead(SW_PIN_X))
 	{
 		stepper_X.run();
 		delay(1);
 	}
-	stepper_X.setCurrentPosition(-15*steps_per_mm);
+	stepper_X.setCurrentPosition(-15*steps_per_mm_X);
 
-	stepper_X.setSpeed(50*steps_per_mm);
-	stepper_Y.setSpeed(50*steps_per_mm);
+	stepper_X.setSpeed(50*steps_per_mm_X);
+	stepper_Y.setSpeed(50*steps_per_mm_Y);
 
 	move_home();
 }
@@ -148,14 +149,14 @@ void setup(){
 	#define speedMultiplier 200		// 100mm/s @ 80 steps/mm
 	#define accelMultiplier 1000	// 2000mm/s^2
 
-	stepper_X.setMaxSpeed(speedMultiplier*steps_per_mm); 
-	stepper_X.setAcceleration(accelMultiplier*steps_per_mm);
+	stepper_X.setMaxSpeed(speedMultiplier*steps_per_mm_X); 
+	stepper_X.setAcceleration(accelMultiplier*steps_per_mm_X);
 	stepper_X.setPinsInverted(true,false,true);
 	stepper_X.setMinPulseWidth(100);
 	
 
-	stepper_Y.setMaxSpeed(speedMultiplier*steps_per_mm); // 100mm/s @ 80 steps/mm
-	stepper_Y.setAcceleration(accelMultiplier*steps_per_mm); // 2000mm/s^2
+	stepper_Y.setMaxSpeed(speedMultiplier*steps_per_mm_Y); // 100mm/s @ 80 steps/mm
+	stepper_Y.setAcceleration(accelMultiplier*steps_per_mm_Y); // 2000mm/s^2
 	stepper_Y.setPinsInverted(false,false,true);
 	stepper_Y.setMinPulseWidth(100);
 	
@@ -163,12 +164,12 @@ void setup(){
 	digitalWrite(EN_PIN, LOW); //activate driver
 	
 	//stepper_X.move(50*steps_per_mm);
-	stepper_X.setSpeed(50*steps_per_mm);
+	stepper_X.setSpeed(50*steps_per_mm_X);
 	//stepper_X.runSpeedToPosition();
 	//stepper_X.runToPosition();
 	
 	//stepper_Y.move(50*steps_per_mm);
-	stepper_Y.setSpeed(50*steps_per_mm);
+	stepper_Y.setSpeed(50*steps_per_mm_Y);
 	//stepper_Y.runSpeedToPosition();
 	//stepper_Y.runToPosition();
 	
@@ -195,14 +196,14 @@ void loop() {
 			Serial.print("Moving Y to ");
 			Serial.println(serialString.substring(1));
 
-			stepper_Y.moveTo(serialString.substring(1).toInt()*steps_per_mm);
+			stepper_Y.moveTo(serialString.substring(1).toInt()*steps_per_mm_Y);
 			
 		}else if (serialString.charAt(0)=='X')
 		{	
 			Serial.print("Moving X to ");
 			Serial.println(serialString.substring(1));
 			
-			stepper_X.moveTo(serialString.substring(1).toInt()*steps_per_mm);
+			stepper_X.moveTo(serialString.substring(1).toInt()*steps_per_mm_X);
 			
 		}else if (serialString.charAt(0)=='A')
 		{	
@@ -214,18 +215,18 @@ void loop() {
 			state = 11;
 		}else if (serialString.charAt(0)=='S')
 		{	
-			stepper_X.setMaxSpeed((int)serialString.substring(1).toInt()*steps_per_mm);
-			stepper_Y.setMaxSpeed((int)serialString.substring(1).toInt()*steps_per_mm);
+			stepper_X.setMaxSpeed((int)serialString.substring(1).toInt()*steps_per_mm_X);
+			stepper_Y.setMaxSpeed((int)serialString.substring(1).toInt()*steps_per_mm_Y);
 			Serial.print("changed Max Speed");
 		}else if (serialString.charAt(0)=='s')
 		{	
-			stepper_X.setSpeed((int)serialString.substring(1).toInt()*steps_per_mm);
-			stepper_Y.setSpeed((int)serialString.substring(1).toInt()*steps_per_mm);
+			stepper_X.setSpeed((int)serialString.substring(1).toInt()*steps_per_mm_X);
+			stepper_Y.setSpeed((int)serialString.substring(1).toInt()*steps_per_mm_Y);
 			Serial.print("changed Speed");
 		}else if (serialString.charAt(0)=='a')
 		{	
-			stepper_X.setAcceleration((int)serialString.substring(1).toInt()*steps_per_mm);
-			stepper_Y.setAcceleration((int)serialString.substring(1).toInt()*steps_per_mm);
+			stepper_X.setAcceleration((int)serialString.substring(1).toInt()*steps_per_mm_X);
+			stepper_Y.setAcceleration((int)serialString.substring(1).toInt()*steps_per_mm_Y);
 			Serial.print("Moving Test 'B' ");
 		}
 		else if (serialString.charAt(0)=='H')
