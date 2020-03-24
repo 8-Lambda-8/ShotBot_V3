@@ -128,6 +128,11 @@ int posX(uint8_t id){
 		(id-(Xcnt)*posY_(id))	:	((1+posY_(id))*Xcnt-1-id));
 
 }
+void movePos(uint8_t id){
+
+	X_moveTo(posX(id));
+	Y_moveTo(posY(id));
+}
 
 void setup(){
 	#ifdef TARGET_ESP32
@@ -232,6 +237,12 @@ void loop() {
 		else if (serialString.charAt(0)=='H')
 		{
 			move_home();
+		}else{
+			Serial.println("else");
+			uint8_t id = (int)serialString.toInt();
+			Serial.printf("id=%d",id);
+			if (id<(Xcnt*Ycnt-1))
+				movePos(id);
 		}
 
 	}
