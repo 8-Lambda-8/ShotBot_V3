@@ -193,6 +193,9 @@ String serialString = "";
 
 int state = 0;
 
+unsigned long loopCounter = 0;
+unsigned long  loopTimer = 0;
+
 void loop() {
 
 	if(Serial.available())
@@ -393,9 +396,17 @@ void loop() {
 			break;
 		}
 
-		delay(500);
+	loopCounter++;
+	if (millis()-loopTimer>1000)
+	{	
+		loopTimer = millis();
+		Serial.print("Loops per Seccond: ");
+		Serial.println(loopCounter);
+		loopCounter = 0;
 	}
 		
+
+	//Stepper runner:		
 	if (stepper_X.distanceToGo()!=0)
 	{
 		stepper_X.run();
