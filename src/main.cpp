@@ -248,6 +248,10 @@ void loop() {
 		}else if (serialString.charAt(0)=='H')
 		{
 			move_home();
+		}else if (serialString.charAt(0)=='R')
+		{
+			Serial.println("Run Fill all\n");
+			state=10;
 		}else{
 			Serial.println("else");
 			uint8_t id = (int)serialString.toInt();
