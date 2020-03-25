@@ -245,6 +245,8 @@ void loop() {
 		}else if (serialString.charAt(0)=='T')
 		{
 			Serial.println(analogRead(SENSOR_Pin));
+		}else if (serialString.charAt(0)=='H')
+		{
 			move_home();
 		}else{
 			Serial.println("else");
