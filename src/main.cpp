@@ -72,7 +72,7 @@ void move_home()
 		{
 			stepper_Y.run();
 		}
-		delay(2);
+		//delay(2);
 
 	}
 	Serial.println("On Home");
@@ -85,15 +85,15 @@ void sense_home()
 	stepper_X.setSpeed(-5*steps_per_mm_X);
 	stepper_Y.setSpeed(5*steps_per_mm_Y);
 
-	stepper_Y.move(200*steps_per_mm_Y);
+	stepper_Y.move(2000*steps_per_mm_Y);
 	while (digitalRead(SW_PIN_Y))
 	{
 		stepper_Y.run();
 		delay(1);
 	}
-	stepper_Y.setCurrentPosition(115*steps_per_mm_Y);
+	stepper_Y.setCurrentPosition(135*steps_per_mm_Y);
 	
-	stepper_X.move(-500*steps_per_mm_X);
+	stepper_X.move(-2000*steps_per_mm_X);
 	while (digitalRead(SW_PIN_X))
 	{
 		stepper_X.run();
