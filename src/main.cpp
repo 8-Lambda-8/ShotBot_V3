@@ -10,6 +10,8 @@
 
 	#define SW_PIN_X		32
 	#define SW_PIN_Y		33
+
+	#define SENSOR_Pin		25	//Glass sensor 
 #endif
 #ifdef TARGET_NANO
 	#define EN_PIN           6 // Enable
@@ -233,9 +235,9 @@ void loop() {
 			stepper_X.setAcceleration((int)serialString.substring(1).toInt()*steps_per_mm_X);
 			stepper_Y.setAcceleration((int)serialString.substring(1).toInt()*steps_per_mm_Y);
 			Serial.print("Moving Test 'B' ");
-		}
-		else if (serialString.charAt(0)=='H')
+		}else if (serialString.charAt(0)=='T')
 		{
+			Serial.println(analogRead(SENSOR_Pin));
 			move_home();
 		}else{
 			Serial.println("else");
