@@ -255,6 +255,10 @@ void loop() {
 		{
 			Serial.println("Run Fill all\n");
 			state=10;
+		}else if (serialString.charAt(0)=='N')
+		{
+			state=0;
+			move_home();
 		}else if (serialString.charAt(0)=='P')
 		{
 			Serial.println("else");
