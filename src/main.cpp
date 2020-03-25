@@ -192,6 +192,9 @@ void setup(){
 String serialString = "";
 
 int state = 0;
+uint8_t currentPos = 0;
+
+unsigned long fillTimer = 0;
 
 unsigned long loopCounter = 0;
 unsigned long  loopTimer = 0;
@@ -281,139 +284,74 @@ void loop() {
 		//Serial.print("To go is 0A");
 		switch (state)
 		{	
-		case 1:
-			X_moveTo(350);
+			case 10: //Move to Glass Pos
+				if (currentPos>17){
+					state=0;
+					currentPos=0;
+					movePos(currentPos);
+					
+				}else{
+					//currentPos++;
+
+					Serial.print("pos: ");
+					Serial.println(currentPos);
+
+					movePos(currentPos);				
+					
 			state++;
+				}
 			break;
-		case 2:
-			Y_moveTo(150);
+			case 11: //sense Glass
+				Serial.print("senseGlass:  ");
+
+				if (analogRead(SENSOR_Pin)<3000){
+					Serial.println("Glass ");
 			state++;
-			break;
-		case 3:
-			X_moveTo(0);
-			state++;
-			break;
-		case 4:
-			Y_moveTo(0);
-			state++;
-			break;
-		case 5:
-			X_moveTo(150);
-			Y_moveTo(150);
-			state++;
-			break;
-		case 6:
-			X_moveTo(300);
-			Y_moveTo(0);
-			state++;
-			break;
-		case 7:
-			Y_moveTo(150);
-			state++;
-			break;
-		case 8:
-			X_moveTo(150);
-			Y_moveTo(0);
-			state++;
-			break;
-		case 9:
-			X_moveTo(0);
-			Y_moveTo(150);
-			state++;
-			break;
-		case 10:			
-			Y_moveTo(0);
-			state = 0;
-			break;
-		default:
-			break;
+				}else{
+					Serial.println("no Glass");
+					Serial.println("");
+					Serial.println("");
+					state=15;
 		}
 	
-		//Serial.print("To go is 0A");
-		switch (state)
-		{	
-		case 11:
-			X_moveTo(0);
-			Y_moveTo(30);
+			break;
+			case 12: //move to Fill pos
+				Serial.println("move Fill pos");
+				movePosFill(currentPos);
+				//Serial.println(stepper_Y.distanceToGo());
+				//if (stepper_Y.distanceToGo()==0)
+			state++;
+				//else
+					//Serial.println("distance to go not null");
+			break;
+				//Serial.println("test");
+			case 13: //start Glass Fill
+				Serial.println("enable Pump");
+				//Todo: Enable Pump
+
+				fillTimer = millis();
 			state++;
 			break;
-		case 12:
-			X_moveTo(0);
-			Y_moveTo(30+posGap);
+			case 14: //End Glass fill
+				
+				if((millis()-fillTimer)>3000){
+					
+					//Todo: disable Pump
 			state++;
+					Serial.println("");
+					Serial.println("");
+				}
 			break;
-		case 13:
-			X_moveTo(0);
-			Y_moveTo(30+posGap*2);
-			state++;
+			case 15: //next Glass
+				currentPos++;
+				state=10;
 			break;
-		case 14:
-			X_moveTo(posGap*1);
-			Y_moveTo(30+posGap*2);
-			state++;
-			break;
-		case 15:
-			X_moveTo(posGap*1);
-			Y_moveTo(30+posGap);
-			state++;
-			break;
-		case 16:
-			X_moveTo(posGap*1);
-			Y_moveTo(30);
-			state++;
-			break;
-		case 17:
-			X_moveTo(posGap*2);
-			Y_moveTo(30);
-			state++;
-			break;
-		case 18:
-			X_moveTo(posGap*2);
-			Y_moveTo(30+posGap);
-			state++;
-			break;
-		case 19:
-			X_moveTo(posGap*2);
-			Y_moveTo(30+posGap*2);
-			state++;
-			break;
-		case 20:
-			X_moveTo(posGap*3);
-			Y_moveTo(30+posGap*2);
-			state++;
-			break;
-		case 21:
-			X_moveTo(posGap*3);
-			Y_moveTo(30+posGap);
-			state++;
-			break;
-		case 22:
-			X_moveTo(posGap*3);
-			Y_moveTo(30);
-			state++;
-			break;
-		case 23:
-			X_moveTo(posGap*4);
-			Y_moveTo(30);
-			state++;
-			break;
-		case 24:
-			X_moveTo(posGap*4);
-			Y_moveTo(30+posGap);
-			state++;
-			break;
-		case 25:
-			X_moveTo(posGap*4);
-			Y_moveTo(30+posGap*2);
-			state++;
-			break;
-		case 26:
-			X_moveTo(0);
-			Y_moveTo(0);
-			state = 0;
-			break;
+
 		default:
 			break;
+
+		}
+		delay(100);
 		}
 
 	loopCounter++;
