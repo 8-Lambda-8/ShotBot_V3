@@ -252,10 +252,24 @@ void loop() {
 		{
 			Serial.println("Run Fill all\n");
 			state=10;
+		}else if (serialString.charAt(0)=='P')
+		{
+			Serial.println("else");
+			uint8_t id = (int)serialString.substring(1).toInt();
+			Serial.printf("id=%d",id);
+			if (id<(Xcnt*Ycnt-1))
+				movePos(id);
+		}else if (serialString.charAt(0)=='p')
+		{
+			Serial.println("else");
+			uint8_t id = (int)serialString.substring(1).toInt();
+			Serial.printf("id=%d\n",id);
+			if (id<(Xcnt*Ycnt-1))
+				movePosFill(id);
 		}else{
 			Serial.println("else");
 			uint8_t id = (int)serialString.toInt();
-			Serial.printf("id=%d",id);
+			Serial.printf("id=%d\n",id);
 			if (id<(Xcnt*Ycnt-1))
 				movePos(id);
 		}
