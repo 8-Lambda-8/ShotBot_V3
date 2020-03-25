@@ -135,6 +135,10 @@ void movePos(uint8_t id){
 	X_moveTo(posX(id));
 	Y_moveTo(posY(id));
 }
+void movePosFill(uint8_t id){
+	X_moveTo(posX(id));
+	Y_moveTo(posY(id)+20);
+}
 
 void setup(){
 	#ifdef TARGET_ESP32
