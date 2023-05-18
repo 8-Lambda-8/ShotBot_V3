@@ -1,71 +1,11 @@
-#include <AccelStepper.h>
 #include <Arduino.h>
 
+#include "move.h"
 #include "pin_config.h"
-
-AccelStepper stepper_X(AccelStepper::DRIVER, STEP_PIN_X, DIR_PIN_X);
-AccelStepper stepper_Y(AccelStepper::DRIVER, STEP_PIN_Y, DIR_PIN_Y);
-
-//(steps per rotation*micro stepping)/(toothCount*toothSeperation)
-constexpr uint32_t steps_per_mm_X = (200 * 8) / (20 * 2);  //=
-constexpr uint32_t steps_per_mm_Y = (200 * 8) / (30 * 2);  //=
-
-bool dir = true;
 
 int delayTime = 50;
 
 const int posGap = 47;  // mm
-
-void X_moveTo(float mm) { stepper_X.moveTo((int)mm * steps_per_mm_X); }
-float X_currentPosition() { return (float)stepper_X.currentPosition() / steps_per_mm_X; }
-void Y_moveTo(float mm) { stepper_Y.moveTo((long)mm * steps_per_mm_Y); }
-float Y_currentPosition() { return (float)stepper_Y.currentPosition() / steps_per_mm_Y; }
-void move_home() {
-  Serial.println("Move Home");
-  Serial.println(X_currentPosition());
-  Serial.println(Y_currentPosition());
-
-  stepper_X.moveTo(0);
-  stepper_Y.moveTo(0);
-  while ((stepper_X.distanceToGo() != 0) || (stepper_Y.distanceToGo() != 0)) {
-    if (stepper_X.distanceToGo() != 0) {
-      stepper_X.run();
-    }
-
-    if (stepper_Y.distanceToGo() != 0) {
-      stepper_Y.run();
-    }
-    // delay(2);
-  }
-  Serial.println("On Home");
-}
-void sense_home() {
-  Serial.println("Sense Home");
-
-  stepper_X.setSpeed(-5 * steps_per_mm_X);
-  stepper_Y.setSpeed(5 * steps_per_mm_Y);
-
-  stepper_Y.move(2000 * steps_per_mm_Y);
-  while (digitalRead(SW_PIN_Y)) {
-    stepper_Y.run();
-    delay(1);
-  }
-  stepper_Y.setCurrentPosition(135 * steps_per_mm_Y);
-
-  stepper_X.move(-2000 * steps_per_mm_X);
-  while (digitalRead(SW_PIN_X)) {
-    stepper_X.run();
-    delay(1);
-  }
-  stepper_X.setCurrentPosition(-15 * steps_per_mm_X);
-
-  stepper_X.setSpeed(50 * steps_per_mm_X);
-  stepper_Y.setSpeed(50 * steps_per_mm_Y);
-
-  move_home();
-}
-void stepper_on() { digitalWrite(EN_PIN, LOW); }
-void stepper_off() { digitalWrite(EN_PIN, HIGH); }
 
 const uint8_t Xcnt = 6;
 const uint8_t Ycnt = 4;
@@ -97,9 +37,6 @@ void setup() {
 
   pinMode(EN_PIN, OUTPUT);
   digitalWrite(EN_PIN, HIGH);  // deactivate driver (LOW active)
-
-#define speedMultiplier 200   // 100mm/s @ 80 steps/mm
-#define accelMultiplier 1000  // 2000mm/s^2
 
   stepper_X.setMaxSpeed(speedMultiplier * steps_per_mm_X);
   stepper_X.setAcceleration(accelMultiplier * steps_per_mm_X);
@@ -148,13 +85,13 @@ void loop() {
       Serial.print("Moving Y to ");
       Serial.println(serialString.substring(1));
 
-      stepper_Y.moveTo(serialString.substring(1).toInt() * steps_per_mm_Y);
+      Y_moveTo(serialString.substring(1).toInt());
 
     } else if (serialString.charAt(0) == 'X') {
       Serial.print("Moving X to ");
       Serial.println(serialString.substring(1));
 
-      stepper_X.moveTo(serialString.substring(1).toInt() * steps_per_mm_X);
+      X_moveTo(serialString.substring(1).toInt());
 
     } else if (serialString.charAt(0) == 'A') {
       Serial.print("Moving Test 'A' ");
@@ -162,7 +99,7 @@ void loop() {
     } else if (serialString.charAt(0) == 'B') {
       Serial.print("Moving Test 'B' ");
       state = 11;
-    } else if (serialString.charAt(0) == 'S') {
+    /* } else if (serialString.charAt(0) == 'S') {
       stepper_X.setMaxSpeed((int)serialString.substring(1).toInt() * steps_per_mm_X);
       stepper_Y.setMaxSpeed((int)serialString.substring(1).toInt() * steps_per_mm_Y);
       Serial.print("changed Max Speed");
@@ -173,7 +110,7 @@ void loop() {
     } else if (serialString.charAt(0) == 'a') {
       stepper_X.setAcceleration((int)serialString.substring(1).toInt() * steps_per_mm_X);
       stepper_Y.setAcceleration((int)serialString.substring(1).toInt() * steps_per_mm_Y);
-      Serial.print("Moving Test 'B' ");
+      Serial.print("Moving Test 'B' "); */
     } else if (serialString.charAt(0) == 'T') {
       Serial.println(analogRead(SENSOR_Pin));
     } else if (serialString.charAt(0) == 'H') {
