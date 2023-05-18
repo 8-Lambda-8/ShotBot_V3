@@ -1,16 +1,16 @@
 #include <AccelStepper.h>
 #include <Arduino.h>
 
-#define EN_PIN 26      // Enable
-#define STEP_PIN_X 27  // Step x
-#define DIR_PIN_X 14   // Direction x
-#define STEP_PIN_Y 12  // Step y
-#define DIR_PIN_Y 13   // Direction y
+#define EN_PIN 16      // Enable
+#define STEP_PIN_X 19  // Step x
+#define DIR_PIN_X 18   // Direction x
+#define STEP_PIN_Y 5   // Step y
+#define DIR_PIN_Y 17   // Direction y
 
-#define SW_PIN_X 32
-#define SW_PIN_Y 33
+#define SW_PIN_X 14
+#define SW_PIN_Y 27
 
-#define SENSOR_Pin 25  // Glass sensor
+#define SENSOR_Pin 13  // Glass sensor
 
 AccelStepper stepper_X(AccelStepper::DRIVER, STEP_PIN_X, DIR_PIN_X);
 AccelStepper stepper_Y(AccelStepper::DRIVER, STEP_PIN_Y, DIR_PIN_Y);
