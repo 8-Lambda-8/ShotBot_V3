@@ -2,28 +2,9 @@
 
 #include "move.h"
 #include "pin_config.h"
+#include "position.h"
 
 int delayTime = 50;
-
-const int posGap = 47;  // mm
-
-const uint8_t Xcnt = 6;
-const uint8_t Ycnt = 4;
-
-int posY_(uint8_t id) { return (int)id / (int)Xcnt; }
-int posY(uint8_t id) { return posGap * posY_(id); }
-int posX(uint8_t id) {
-  return posGap *
-         (((posY_(id) % 2) == 0) ? (id - (Xcnt)*posY_(id)) : ((1 + posY_(id)) * Xcnt - 1 - id));
-}
-void movePos(uint8_t id) {
-  X_moveTo(posX(id));
-  Y_moveTo(posY(id));
-}
-void movePosFill(uint8_t id) {
-  X_moveTo(posX(id));
-  Y_moveTo(posY(id) + 20);
-}
 
 void setup() {
   Serial.begin(115200);
@@ -97,17 +78,17 @@ void loop() {
       Serial.println("else");
       uint8_t id = (int)serialString.substring(1).toInt();
       Serial.printf("id=%d", id);
-      if (id < (Xcnt * Ycnt - 1)) movePos(id);
+      if (id < PosCount) movePos(id);
     } else if (serialString.charAt(0) == 'p') {
       Serial.println("else");
       uint8_t id = (int)serialString.substring(1).toInt();
       Serial.printf("id=%d\n", id);
-      if (id < (Xcnt * Ycnt - 1)) movePosFill(id);
+      if (id < PosCount) movePosFill(id);
     } else {
       Serial.println("else");
       uint8_t id = (int)serialString.toInt();
       Serial.printf("id=%d\n", id);
-      if (id < (Xcnt * Ycnt - 1)) movePos(id);
+      if (id < PosCount) movePos(id);
     }
   }
 
@@ -115,7 +96,7 @@ void loop() {
     // Serial.print("To go is 0A");
     switch (state) {
       case 10:  // Move to Glass Pos
-        if (currentPos > 17) {
+        if (currentPos >= PosCount) {
           state = 0;
           currentPos = 0;
           movePos(currentPos);
