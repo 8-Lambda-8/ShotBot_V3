@@ -32,35 +32,7 @@ void setup() {
     ;
   Serial.println("Start...");
 
-  pinMode(SW_PIN_X, INPUT);
-  pinMode(SW_PIN_Y, INPUT);
-
-  pinMode(EN_PIN, OUTPUT);
-  digitalWrite(EN_PIN, HIGH);  // deactivate driver (LOW active)
-
-  stepper_X.setMaxSpeed(speedMultiplier * steps_per_mm_X);
-  stepper_X.setAcceleration(accelMultiplier * steps_per_mm_X);
-  stepper_X.setPinsInverted(true, false, true);
-  stepper_X.setMinPulseWidth(100);
-
-  stepper_Y.setMaxSpeed(speedMultiplier * steps_per_mm_Y);      // 100mm/s @ 80 steps/mm
-  stepper_Y.setAcceleration(accelMultiplier * steps_per_mm_Y);  // 2000mm/s^2
-  stepper_Y.setPinsInverted(false, false, true);
-  stepper_Y.setMinPulseWidth(100);
-
-  digitalWrite(EN_PIN, LOW);  // activate driver
-
-  // stepper_X.move(50*steps_per_mm);
-  stepper_X.setSpeed(50 * steps_per_mm_X);
-  // stepper_X.runSpeedToPosition();
-  // stepper_X.runToPosition();
-
-  // stepper_Y.move(50*steps_per_mm);
-  stepper_Y.setSpeed(50 * steps_per_mm_Y);
-  // stepper_Y.runSpeedToPosition();
-  // stepper_Y.runToPosition();
-
-  sense_home();
+  move_init();
 
   Serial.println("end Setup");
 }

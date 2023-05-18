@@ -3,6 +3,30 @@
 AccelStepper stepper_X(AccelStepper::DRIVER, STEP_PIN_X, DIR_PIN_X);
 AccelStepper stepper_Y(AccelStepper::DRIVER, STEP_PIN_Y, DIR_PIN_Y);
 
+void move_init() {
+  pinMode(SW_PIN_X, INPUT);
+  pinMode(SW_PIN_Y, INPUT);
+
+  pinMode(EN_PIN, OUTPUT);
+  digitalWrite(EN_PIN, HIGH);
+
+  stepper_off();
+
+  stepper_X.setMaxSpeed(speed * steps_per_mm_X);
+  stepper_X.setAcceleration(accel * steps_per_mm_X);
+  stepper_X.setPinsInverted(false, false, false);
+
+  stepper_Y.setMaxSpeed(speed * steps_per_mm_Y);
+  stepper_Y.setAcceleration(accel * steps_per_mm_Y);
+  stepper_Y.setPinsInverted(true, false, false);
+
+  stepper_on();
+
+  stepper_X.setSpeed(speed * steps_per_mm_X);
+  stepper_Y.setSpeed(speed * steps_per_mm_Y);
+
+  sense_home();
+}
 
 void X_moveTo(float mm) { stepper_X.moveTo((long)mm * steps_per_mm_X); }
 float X_currentPosition() { return (float)stepper_X.currentPosition() / steps_per_mm_X; }

@@ -24,6 +24,8 @@ constexpr uint32_t accel = 1000;  // mm/s^2
 const int16_t homeOffset_X = -10;  // mm
 const int16_t homeOffset_Y = 175;  // mm
 
+void move_init();
+
 void X_moveTo(float mm);
 float X_currentPosition();
 
