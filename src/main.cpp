@@ -190,12 +190,5 @@ void loop() {
     loopCounter = 0;
   }
 
-  // Stepper runner:
-  if (stepper_X.distanceToGo() != 0) {
-    stepper_X.run();
-  }
-
-  if (stepper_Y.distanceToGo() != 0) {
-    stepper_Y.run();
-  }
+  move_loop();
 }

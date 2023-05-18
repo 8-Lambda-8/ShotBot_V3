@@ -39,4 +39,6 @@ void sense_home();
 void stepper_on();
 void stepper_off();
 
+void move_loop();
+
 #endif /* MOVEH_H */
