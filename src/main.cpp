@@ -1,7 +1,6 @@
 #include <AccelStepper.h>
 #include <Arduino.h>
 
-#ifdef TARGET_ESP32
 #define EN_PIN 26      // Enable
 #define STEP_PIN_X 27  // Step x
 #define DIR_PIN_X 14   // Direction x
@@ -12,17 +11,6 @@
 #define SW_PIN_Y 33
 
 #define SENSOR_Pin 25  // Glass sensor
-#endif
-#ifdef TARGET_NANO
-#define EN_PIN 6      // Enable
-#define STEP_PIN_X 5  // Step x
-#define DIR_PIN_X 4   // Direction x
-#define STEP_PIN_Y 3  // Step y
-#define DIR_PIN_Y 2   // Direction y
-
-#define SW_PIN_X 7
-#define SW_PIN_Y 8
-#endif
 
 AccelStepper stepper_X(AccelStepper::DRIVER, STEP_PIN_X, DIR_PIN_X);
 AccelStepper stepper_Y(AccelStepper::DRIVER, STEP_PIN_Y, DIR_PIN_Y);
@@ -107,12 +95,7 @@ void movePosFill(uint8_t id) {
 }
 
 void setup() {
-#ifdef TARGET_ESP32
   Serial.begin(115200);
-#endif
-#ifdef TARGET_NANO
-  Serial.begin(115200);
-#endif
 
   while (!Serial)
     ;
