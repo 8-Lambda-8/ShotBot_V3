@@ -75,6 +75,8 @@ void sense_home() {
 void stepper_on() { digitalWrite(EN_PIN, LOW); }
 void stepper_off() { digitalWrite(EN_PIN, HIGH); }
 
+bool move_finished() { return (stepper_X.distanceToGo() == 0) && (stepper_Y.distanceToGo() == 0); }
+
 void move_loop() {
   if (stepper_X.distanceToGo() != 0) {
     stepper_X.run();

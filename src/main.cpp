@@ -111,7 +111,7 @@ void loop() {
     }
   }
 
-  if ((stepper_X.distanceToGo() == 0) && (stepper_Y.distanceToGo() == 0)) {
+  if (move_finished()) {
     // Serial.print("To go is 0A");
     switch (state) {
       case 10:  // Move to Glass Pos
