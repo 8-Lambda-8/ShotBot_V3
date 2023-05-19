@@ -24,7 +24,7 @@ uint8_t currentPos = 0;
 unsigned long fillTimer = 0;
 
 unsigned long loopCounter = 0;
-unsigned long loopTimer = 0;
+unsigned long loopShowTimer = 0;
 
 void loop() {
   if (Serial.available()) {
@@ -161,8 +161,8 @@ void loop() {
   }
 
   loopCounter++;
-  if (millis() - loopTimer > 1000) {
-    loopTimer = millis();
+  if (millis() - loopShowTimer > 1000) {
+    loopShowTimer = millis();
     Serial.print("Loops per Seccond: ");
     Serial.println(loopCounter);
     loopCounter = 0;
