@@ -74,7 +74,7 @@ void loop() {
     }
   }
 
-  if (move_finished()) {
+  if (move_finished() && pump_finished()) {
     switch (state) {
       case 10:  // Move to Glass Pos
         if (currentPos >= PosCount) {
@@ -103,7 +103,6 @@ void loop() {
           Serial.println("");
           state = 15;
         }
-
         break;
       case 12:  // move to Fill pos
         Serial.println("move Fill pos");
@@ -115,25 +114,13 @@ void loop() {
         pump(0, 20);
         state++;
         break;
-      case 14:  // End Glass fill
-        if (pump_finished()) {
-          state++;
-        }
-        break;
-      case 15:  // Pump Retraction
-
+      case 14:  // Pump Retraction
         pump(0, 1, true);
         state++;
         break;
-      case 16: // End Retraction
-        if (pump_finished()) {
-          state = 20;
-
-          Serial.println("");
-          Serial.println("");
-        }
-        break;
-      case 20:  // next Glass
+      case 15:  // next Glass
+        Serial.println("");
+        Serial.println("");
         currentPos++;
         state = 10;
         break;
