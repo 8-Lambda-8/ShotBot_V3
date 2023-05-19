@@ -44,12 +44,6 @@ void loop() {
 
       X_moveTo(serialString.substring(1).toInt());
 
-    } else if (serialString.charAt(0) == 'A') {
-      Serial.print("Moving Test 'A' ");
-      state = 1;
-    } else if (serialString.charAt(0) == 'B') {
-      Serial.print("Moving Test 'B' ");
-      state = 11;
     /* } else if (serialString.charAt(0) == 'S') {
       stepper_X.setMaxSpeed((int)serialString.substring(1).toInt() * steps_per_mm_X);
       stepper_Y.setMaxSpeed((int)serialString.substring(1).toInt() * steps_per_mm_Y);
