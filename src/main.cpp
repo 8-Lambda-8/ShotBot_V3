@@ -124,14 +124,24 @@ void loop() {
         state++;
         break;
       case 14:  // End Glass fill
-
         if (pump_finished()) {
           state++;
+        }
+        break;
+      case 15:  // Pump Retraction
+
+        pump(0, 1, true);
+        state++;
+        break;
+      case 16: // End Retraction
+        if (pump_finished()) {
+          state = 20;
+
           Serial.println("");
           Serial.println("");
         }
         break;
-      case 15:  // next Glass
+      case 20:  // next Glass
         currentPos++;
         state = 10;
         break;
