@@ -17,6 +17,11 @@
 #define SENSOR_Pin 13  // Glass sensor
 
 // Pump
+#define PUMP_A_A 25 
+#define PUMP_A_B 26
+
+#define PUMP_B_A 32
+#define PUMP_B_B 33
 
 // LED
 

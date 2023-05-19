@@ -3,6 +3,7 @@
 #include "move.h"
 #include "pin_config.h"
 #include "position.h"
+#include "pump.h"
 
 void setup() {
   Serial.begin(115200);
@@ -12,6 +13,7 @@ void setup() {
   Serial.println("Start...");
 
   move_init();
+  pump_init();
 
   Serial.println("end Setup");
 }
@@ -20,8 +22,6 @@ String serialString = "";
 
 int state = 0;
 uint8_t currentPos = 0;
-
-unsigned long fillTimer = 0;
 
 unsigned long loopCounter = 0;
 unsigned long loopShowTimer = 0;
@@ -120,15 +120,12 @@ void loop() {
         // Serial.println("test");
       case 13:  // start Glass Fill
         Serial.println("enable Pump");
-        // Todo: Enable Pump
-
-        fillTimer = millis();
+        pump(0, 20);
         state++;
         break;
       case 14:  // End Glass fill
 
-        if ((millis() - fillTimer) > 3000) {
-          // Todo: disable Pump
+        if (pump_finished()) {
           state++;
           Serial.println("");
           Serial.println("");
@@ -153,4 +150,5 @@ void loop() {
   }
 
   move_loop();
+  pump_loop();
 }
