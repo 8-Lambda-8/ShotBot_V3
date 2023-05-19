@@ -48,6 +48,8 @@ void loop() {
       Serial.println(analogRead(SENSOR_Pin));
     } else if (serialString.charAt(0) == 'H') {
       move_home();
+    } else if (serialString.charAt(0) == 'S') {
+      sense_home();
     } else if (serialString.charAt(0) == 'R') {
       Serial.println("Run Fill all\n");
       state = 10;
