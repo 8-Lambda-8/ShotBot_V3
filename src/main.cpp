@@ -44,18 +44,6 @@ void loop() {
 
       X_moveTo(serialString.substring(1).toInt());
 
-    /* } else if (serialString.charAt(0) == 'S') {
-      stepper_X.setMaxSpeed((int)serialString.substring(1).toInt() * steps_per_mm_X);
-      stepper_Y.setMaxSpeed((int)serialString.substring(1).toInt() * steps_per_mm_Y);
-      Serial.print("changed Max Speed");
-    } else if (serialString.charAt(0) == 's') {
-      stepper_X.setSpeed((int)serialString.substring(1).toInt() * steps_per_mm_X);
-      stepper_Y.setSpeed((int)serialString.substring(1).toInt() * steps_per_mm_Y);
-      Serial.print("changed Speed");
-    } else if (serialString.charAt(0) == 'a') {
-      stepper_X.setAcceleration((int)serialString.substring(1).toInt() * steps_per_mm_X);
-      stepper_Y.setAcceleration((int)serialString.substring(1).toInt() * steps_per_mm_Y);
-      Serial.print("Moving Test 'B' "); */
     } else if (serialString.charAt(0) == 'T') {
       Serial.println(analogRead(SENSOR_Pin));
     } else if (serialString.charAt(0) == 'H') {
