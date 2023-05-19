@@ -75,7 +75,6 @@ void loop() {
   }
 
   if (move_finished()) {
-    // Serial.print("To go is 0A");
     switch (state) {
       case 10:  // Move to Glass Pos
         if (currentPos >= PosCount) {
@@ -84,8 +83,6 @@ void loop() {
           movePos(currentPos);
 
         } else {
-          // currentPos++;
-
           Serial.print("pos: ");
           Serial.println(currentPos);
 
@@ -111,13 +108,8 @@ void loop() {
       case 12:  // move to Fill pos
         Serial.println("move Fill pos");
         movePosFill(currentPos);
-        // Serial.println(stepper_Y.distanceToGo());
-        // if (stepper_Y.distanceToGo()==0)
         state++;
-        // else
-        // Serial.println("distance to go not null");
         break;
-        // Serial.println("test");
       case 13:  // start Glass Fill
         Serial.println("enable Pump");
         pump(0, 20);
