@@ -4,8 +4,6 @@
 #include "pin_config.h"
 #include "position.h"
 
-int delayTime = 50;
-
 void setup() {
   Serial.begin(115200);
 
@@ -160,7 +158,6 @@ void loop() {
       default:
         break;
     }
-    delay(100);
   }
 
   loopCounter++;
