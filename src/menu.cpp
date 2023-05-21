@@ -27,4 +27,14 @@ void menu_printf(uint8_t x, uint8_t y, const char* format, ...) {
   lcd.printf(format, copy);
 };
 
-void menu_loop() {}
+void updateDisplay() {
+}
+
+unsigned long displayUpdateTimer = 0;
+
+void menu_loop() {
+  if (millis() - displayUpdateTimer > 1000) {
+    displayUpdateTimer = millis();
+    updateDisplay();
+  }
+}
