@@ -1,11 +1,13 @@
 #include <Arduino.h>
 
+#include "menu.h"
 #include "move.h"
 #include "pin_config.h"
 #include "position.h"
 #include "pump.h"
 
 void setup() {
+  menu_init();
   Serial.begin(115200);
 
   while (!Serial)
@@ -140,4 +142,5 @@ void loop() {
 
   move_loop();
   pump_loop();
+  menu_loop();
 }
