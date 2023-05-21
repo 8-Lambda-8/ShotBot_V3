@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "global_vars.h"
 #include "menu.h"
 #include "move.h"
 #include "pin_config.h"
@@ -21,9 +22,6 @@ void setup() {
 }
 
 String serialString = "";
-
-int state = 0;
-uint8_t currentPos = 0;
 
 unsigned long loopCounter = 0;
 unsigned long loopShowTimer = 0;
