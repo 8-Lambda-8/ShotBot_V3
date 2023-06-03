@@ -80,16 +80,12 @@ void loop() {
         if (currentPos >= PosCount) {
           state = 0;
           currentPos = 0;
-          movePos(currentPos);
-
         } else {
           Serial.print("pos: ");
           Serial.println(currentPos);
-
-          movePos(currentPos);
-
           state++;
         }
+        movePos(currentPos);
         break;
       case 11:  // sense Glass
         Serial.print("senseGlass:  ");
