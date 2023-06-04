@@ -5,6 +5,7 @@
 #include <Arduino.h>
 
 #include "pin_config.h"
+#include "menu.h"
 
 #if !defined(EN_PIN) || !defined(STEP_PIN_X) || !defined(DIR_PIN_X) || !defined(STEP_PIN_Y) || \
     !defined(DIR_PIN_Y)
