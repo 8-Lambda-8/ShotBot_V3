@@ -9,18 +9,27 @@ uint8_t upArrowChar[] = {
     0b00000, 0b00100, 0b01010, 0b10101, 0b01010, 0b10001, 0b00000, 0b00000,
 };
 
+#define COLOR_ORDER GRB
+#define CHIPSET WS2812
+
+#define BRIGHTNESS 20
+
+#define NUM_LEDS 4
+CRGB leds[NUM_LEDS];
+
 struct Button {
   uint8_t BtnPin;
   bool BtnState;
   bool BtnStateLast;
   uint32_t lastPress;
   uint8_t id;
+  CRGB LedColor;
 };
 
-Button buttons[4] = {{Button1, false, false, 0, 0},
-                     {Button2, false, false, 0, 1},
-                     {Button3, false, false, 0, 2},
-                     {Button4, false, false, 0, 3}};
+Button buttons[4] = {{Button1, false, false, 0, 0, CRGB::Red},
+                     {Button2, false, false, 0, 1, CRGB::Green},
+                     {Button3, false, false, 0, 2, CRGB::Blue},
+                     {Button4, false, false, 0, 3, CRGB::Yellow}};
 
 bool button_keyDown[4] = {false, false, false, false};
 
@@ -42,9 +51,21 @@ void menu_init() {
   lcd.createChar(1, downArrowChar);
   lcd.createChar(2, upArrowChar);
 
+  FastLED.addLeds<CHIPSET, WS2812_Pin, COLOR_ORDER>(leds, NUM_LEDS);
+
   for (auto &&btn : buttons) {
     pinMode(btn.BtnPin, INPUT);
+    leds[btn.id] = btn.LedColor;
   }
+
+  FastLED.show();
+
+  delay(200);
+
+  for (auto &&btn : buttons) {
+    leds[btn.id] = CRGB::Black;
+  }
+  FastLED.show();
 
   menu_print(0, 0, "Startup...");
 }
@@ -73,10 +94,13 @@ void updateDisplay() {
         menu_printf(0, 1, " Pos %02d  Count %02d   ", currentPos, filledCount);
         menu_print(0, 2, "                    ");
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
+        buttons[0].LedColor = CRGB::Red;
         break;
       case 14: {
         menu_printf(0, 2, " %02d / %02d ml         ", current_ml(), selectedML);
         menu_print(0, 3, "[Abort][ ] [ ][Next]");
+        buttons[0].LedColor = CRGB::Red;
+        buttons[0].LedColor = CRGB::Yellow;
         break;
       }
 
@@ -135,6 +159,7 @@ bool buttonRead(Button btn) { return !digitalRead(btn.BtnPin); }
 void updateButtons() {
   for (auto &&btn : buttons) {
     button_keyDown[btn.id] = false;
+    leds[btn.id] = btn.LedColor;
     if (millis() - btn.lastPress < 50) continue;
     btn.lastPress = millis();
     btn.BtnStateLast = btn.BtnState;
@@ -253,4 +278,6 @@ void menu_loop() {
     updateDisplay();
   }
   updateButtons();
+
+  FastLED.show();
 }

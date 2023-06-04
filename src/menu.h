@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
+#include <FastLED.h>
 
 #include "move.h"
 #include "pin_config.h"
