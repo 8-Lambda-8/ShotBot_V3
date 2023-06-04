@@ -19,6 +19,11 @@ void setup() {
   pump_init();
 
   Serial.println("end Setup");
+  menu_print(0, 0, "Finished Setup      ");
+  menu_print(0, 1, "                    ");
+  menu_print(0, 2, "                    ");
+  menu_print(0, 3, "                    ");
+  delay(1000);
 }
 
 String serialString = "";
