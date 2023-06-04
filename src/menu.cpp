@@ -49,6 +49,9 @@ void menu_printf(uint8_t x, uint8_t y, const char* format, ...) {
 
 void updateDisplay() {
   if (state != 0) {
+    menuState = 0;
+    menu_printf(0, 3, "[Abort][ ][ ][%s]", state == 14 ? "Next" : "    ");
+
   } else {
     switch (menuState) {
       case 0:  // Home Menu
@@ -75,6 +78,13 @@ void updateButtons() {
   }
 
   if (state != 0) {
+    if (button_keyDown[0]) {  // Abort
+      state = 0;
+      pump_stop();
+      move_home();
+    } else if (state == 14 && button_keyDown[3]) {
+      pump_stop();  // next glass
+    }
   } else {
     if (button_keyDown[0]) {  // Start Fill
       state = 10;

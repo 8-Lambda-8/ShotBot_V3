@@ -5,7 +5,9 @@
 #include <LiquidCrystal_I2C.h>
 
 #include "global_vars.h"
+#include "move.h"
 #include "pin_config.h"
+#include "pump.h"
 
 void menu_init();
 void menu_loop();
