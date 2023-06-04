@@ -76,6 +76,36 @@ void menu_printf(uint8_t x, uint8_t y, const char *format, A... args) {
   lcd.printf(format, args...);
 };
 
+// Wifi views
+void configModeCallback(AsyncWiFiManager *myWiFiManager) {
+  menu_print(0, 1, "Connect to          ");
+  menu_print(0, 2, "                    ");
+  menu_print(0, 2, "\"" + myWiFiManager->getConfigPortalSSID() + "\"");
+  menu_print(0, 3, "to Configure WiFi   ");
+}
+
+void menu_OTA_Start() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Updateing...");
+  lcd.setCursor(0, 3);
+  lcd.printf("[                   ]");
+  lcd.setCursor(0, 1);
+}
+
+void menu_OTA_Progress(size_t progress, size_t size) {
+  float percent = (size / progress) * 100;
+  lcd.setCursor(0, 1);
+  lcd.printf("%3.1f", percent);
+
+  lcd.setCursor(0, 2);
+  lcd.print(size);
+  lcd.setCursor(1, 3);
+  for (uint8_t i = 0; i < map(percent, 0, 100, 0, 18); i++) {
+    lcd.print("=");
+  }
+}
+
 void updateDisplay() {
   if (!move_finished()) return;
   if (state != 0) {

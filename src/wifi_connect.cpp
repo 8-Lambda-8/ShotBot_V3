@@ -17,6 +17,7 @@ void wifi_init() {
   AsyncWiFiManager wifiManager(&server, &dns);
 
   wifiManager.setSaveConfigCallback(saveConfigCallback);
+  wifiManager.setAPCallback(configModeCallback);
 
   bool connected = false;
   if (!digitalRead(Button1)) {  // Reset when Button1 is pressed on Boot
@@ -39,6 +40,8 @@ void wifi_init() {
   menu_print(0, 2, WiFi.localIP().toString());
 
   ArduinoOTA.setHostname("ShotBot");
+  ArduinoOTA.onStart(menu_OTA_Start);
+  ArduinoOTA.onProgress(menu_OTA_Progress);
   ArduinoOTA.begin();
 }
 
