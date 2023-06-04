@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 
+#include "pin_config.h"
+
 void menu_init();
 void menu_loop();
 

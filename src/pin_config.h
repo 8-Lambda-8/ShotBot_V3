@@ -23,6 +23,13 @@
 #define PUMP_B_A 32
 #define PUMP_B_B 33
 
+//Buttons
+#define Button1 36
+#define Button2 39
+#define Button3 34
+#define Button4 35
+
 // LED
+#define WS2812_Pin 23
 
 #endif /* PIN_CONFIG_H */
