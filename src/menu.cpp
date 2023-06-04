@@ -16,6 +16,8 @@ Button buttons[4] = {{Button1, false, false, 0},
 
 bool button_keyDown[4] = {false, false, false, false};
 
+uint8_t menuState = 0;
+
 void menu_init() {
   lcd.init();
   lcd.backlight();
@@ -46,6 +48,20 @@ void menu_printf(uint8_t x, uint8_t y, const char* format, ...) {
 };
 
 void updateDisplay() {
+  if (state != 0) {
+  } else {
+    switch (menuState) {
+      case 0:  // Home Menu
+        menu_print(0, 0, "#  Shot Bot v3.0  #");
+        menu_print(0, 1, "                   ");
+        menu_print(0, 2, "                   ");
+        menu_printf(0, 3, "[Fill][   ][  ][  ]");
+        break;
+
+      default:
+        break;
+    }
+  }
 }
 
 bool buttonRead(Button btn) { return !digitalRead(btn.BtnPin); }
@@ -56,7 +72,14 @@ void updateButtons() {
     btn.BtnState = buttonRead(btn);
 
     button_keyDown[btn.id] = btn.BtnState != btn.BtnStateLast && btn.BtnState;
-  } 
+  }
+
+  if (state != 0) {
+  } else {
+    if (button_keyDown[0]) {  // Start Fill
+      state = 10;
+    }
+  }
 }
 
 unsigned long displayUpdateTimer = 0;
