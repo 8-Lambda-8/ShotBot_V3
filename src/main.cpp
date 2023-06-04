@@ -5,6 +5,7 @@
 #include "pin_config.h"
 #include "position.h"
 #include "pump.h"
+#include "wifi_connect.h"
 
 void setup() {
   menu_init();
@@ -14,6 +15,7 @@ void setup() {
     ; */
   Serial.println("Start...");
 
+  wifi_init();
   move_init();
   pump_init();
 
@@ -164,4 +166,5 @@ void loop() {
   pump_loop();
   menu_loop();
   led_loop();
+  wifi_loop();
 }
