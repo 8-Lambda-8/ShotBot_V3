@@ -96,6 +96,7 @@ void updateButtons() {
       currentPos = 0;
       pump_stop();
       move_home();
+      Serial.println("Abort");
     } else if (state == 14 && button_keyDown[3]) {
       pump_stop();  // next glass
     }
