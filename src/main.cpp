@@ -33,6 +33,7 @@ unsigned long loopShowTimer = 0;
 extern uint8_t state = 0;
 extern uint8_t stateL = 0;
 extern uint8_t currentPos = 0;
+extern uint8_t filledCount = 0;
 
 void loop() {
   if (Serial.available()) {
@@ -90,6 +91,7 @@ void loop() {
         if (currentPos >= PosCount) {
           state = 0;
           currentPos = 0;
+          filledCount = 0;
         } else {
           Serial.print("pos: ");
           Serial.println(currentPos);
@@ -103,6 +105,7 @@ void loop() {
         if (analogRead(SENSOR_Pin) < 3000) {
           Serial.println("Glass ");
           state++;
+          filledCount++;
         } else {
           Serial.println("no Glass");
           Serial.println("");
