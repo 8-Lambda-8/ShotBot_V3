@@ -84,6 +84,7 @@ void loop() {
   if (move_finished() && pump_finished()) {
     switch (state) {
       case 10:  // Move to Glass Pos
+        Serial.println("10 Move To Pos");
         if (currentPos >= PosCount) {
           state = 0;
           currentPos = 0;
@@ -95,7 +96,7 @@ void loop() {
         movePos(currentPos);
         break;
       case 11:  // sense Glass
-        Serial.print("senseGlass:  ");
+        Serial.print("11 senseGlass:  ");
 
         if (analogRead(SENSOR_Pin) < 3000) {
           Serial.println("Glass ");
@@ -108,20 +109,22 @@ void loop() {
         }
         break;
       case 12:  // move to Fill pos
-        Serial.println("move Fill pos");
+        Serial.println("12 move Fill pos");
         movePosFill(currentPos);
         state++;
         break;
       case 13:  // start Glass Fill
-        Serial.println("enable Pump");
+        Serial.println("13 enable Pump");
         pump(0, 20);
         state++;
         break;
       case 14:  // Pump Retraction
+        Serial.println("14 enable Pump");
         pump(0, 1, true);
         state++;
         break;
       case 15:  // next Glass
+        Serial.println("15 next Glass");
         Serial.println("");
         Serial.println("");
         currentPos++;
