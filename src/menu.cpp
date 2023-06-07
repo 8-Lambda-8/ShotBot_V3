@@ -36,18 +36,15 @@ void menu_print(uint8_t x, uint8_t y, const char str[]) {
   lcd.setCursor(x, y);
   lcd.print(str);
 };
-void menu_print(uint8_t x, uint8_t y, const String& s) {
+void menu_print(uint8_t x, uint8_t y, const String &s) {
   lcd.setCursor(x, y);
   lcd.print(s);
 };
 
-void menu_printf(uint8_t x, uint8_t y, const char* format, ...) {
+template <class... A>
+void menu_printf(uint8_t x, uint8_t y, const char *format, A... args) {
   lcd.setCursor(x, y);
-  va_list arg;
-  va_list copy;
-  va_start(arg, format);
-  va_copy(copy, arg);
-  lcd.printf(format, copy);
+  lcd.printf(format, args...);
 };
 
 void updateDisplay() {
@@ -73,7 +70,7 @@ void updateDisplay() {
         menu_print(0, 0, "#  Shot Bot v3.0   #");
         menu_print(0, 1, "                    ");
         menu_print(0, 2, "                    ");
-        menu_printf(0, 3, "[Fill][  ] [  ] [  ]");
+        menu_print(0, 3, "[Fill][  ] [  ] [  ]");
         break;
 
       default:
@@ -115,5 +112,4 @@ void menu_loop() {
     updateDisplay();
   }
   updateButtons();
-
 }
