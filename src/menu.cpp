@@ -53,11 +53,11 @@ void updateDisplay() {
     menuState = 0;
     switch (state) {
       case 10:
-        menu_printf(0, 1, "Pos %d", currentPos);
+        menu_printf(0, 1, " Pos %02d", currentPos);
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
         break;
       case 14: {
-        menu_printf(0, 2, "%d ml", current_ml());
+        menu_printf(0, 2, " %02d ml", current_ml());
         menu_print(0, 3, "[Abort][ ] [ ][Next]");
       }
 
