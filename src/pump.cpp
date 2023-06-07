@@ -35,6 +35,14 @@ void pump(uint8_t pump_id, uint8_t ml, bool reverse) {
     digitalWrite(PUMP_B_A, HIGH);
   } else if (pump_id == 1) {
     digitalWrite(PUMP_B_B, HIGH);
+  } else if (pump_id == 2 && reverse) {
+    digitalWrite(PUMP_A_A, HIGH);
+    digitalWrite(PUMP_B_A, HIGH);
+    pumpTime = pumpTime / 2;
+  } else if (pump_id == 2) {
+    digitalWrite(PUMP_A_B, HIGH);
+    digitalWrite(PUMP_B_B, HIGH);
+    pumpTime = pumpTime / 2;
   }
 }
 
