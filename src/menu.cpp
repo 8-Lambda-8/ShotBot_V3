@@ -93,6 +93,7 @@ void updateButtons() {
   if (state != 0) {
     if (button_keyDown[0]) {  // Abort
       state = 0;
+      currentPos = 0;
       pump_stop();
       move_home();
     } else if (state == 14 && button_keyDown[3]) {
