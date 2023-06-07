@@ -107,7 +107,7 @@ void updateButtons() {
 unsigned long displayUpdateTimer = 0;
 
 void menu_loop() {
-  if (millis() - displayUpdateTimer > 1000 || state != stateL) {
+  if (millis() - displayUpdateTimer > 500 || state != stateL) {
     displayUpdateTimer = millis();
     updateDisplay();
   }
