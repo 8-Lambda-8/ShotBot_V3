@@ -52,7 +52,7 @@ void updateDisplay() {
     menuState = 0;
     switch (state) {
       case 10:
-        menu_printf(0, 2, "Pos %d", currentPos);
+        menu_printf(0, 1, "Pos %d", currentPos);
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
         break;
       case 14: {
