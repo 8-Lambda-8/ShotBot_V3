@@ -56,6 +56,7 @@ void updateDisplay() {
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
         break;
       case 13: {
+        menu_printf(0, 2, "%d ml", current_ml());
         menu_print(0, 3, "[Abort][ ] [ ][Next]");
       }
 
