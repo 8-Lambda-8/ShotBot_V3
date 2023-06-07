@@ -29,6 +29,7 @@ String serialString = "";
 
 unsigned long loopCounter = 0;
 unsigned long loopShowTimer = 0;
+
 extern uint8_t state = 0;
 extern uint8_t currentPos = 0;
 

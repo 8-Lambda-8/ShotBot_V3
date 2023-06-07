@@ -49,11 +49,21 @@ void menu_printf(uint8_t x, uint8_t y, const char* format, ...) {
 };
 
 void updateDisplay() {
-  if (state != 0) {
+  if (state != 0 && move_finished()) {
     menuState = 0;
-    menu_printf(0, 3, "[Abort][ ][ ][%s]", state == 14 ? "Next" : "    ");
+    switch (state) {
+      case 10:
+        menu_print(0, 3, "[Abort][ ][ ][    ]");
+        break;
+      case 13: {
+        menu_print(0, 3, "[Abort][ ][ ][Next]");
+      }
 
-  } else {
+      default:
+        break;
+    }
+
+  } else if (state == 0) {
     switch (menuState) {
       case 0:  // Home Menu
         menu_print(0, 0, "#  Shot Bot v3.0  #");
