@@ -59,7 +59,7 @@ void updateDisplay() {
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
         break;
       case 14: {
-        menu_printf(0, 2, " %02d ml", current_ml());
+        menu_printf(0, 2, " %02d / %02d ml       ", current_ml(), selectedML);
         menu_print(0, 3, "[Abort][ ] [ ][Next]");
       }
 
