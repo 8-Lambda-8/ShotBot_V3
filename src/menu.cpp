@@ -53,10 +53,10 @@ void updateDisplay() {
     menuState = 0;
     switch (state) {
       case 10:
-        menu_print(0, 3, "[Abort][ ][ ][    ]");
+        menu_print(0, 3, "[Abort][ ] [ ][    ]");
         break;
       case 13: {
-        menu_print(0, 3, "[Abort][ ][ ][Next]");
+        menu_print(0, 3, "[Abort][ ] [ ][Next]");
       }
 
       default:
@@ -66,10 +66,10 @@ void updateDisplay() {
   } else if (state == 0) {
     switch (menuState) {
       case 0:  // Home Menu
-        menu_print(0, 0, "#  Shot Bot v3.0  #");
-        menu_print(0, 1, "                   ");
-        menu_print(0, 2, "                   ");
-        menu_printf(0, 3, "[Fill][   ][  ][  ]");
+        menu_print(0, 0, "#  Shot Bot v3.0   #");
+        menu_print(0, 1, "                    ");
+        menu_print(0, 2, "                    ");
+        menu_printf(0, 3, "[Fill][  ] [  ] [  ]");
         break;
 
       default:
