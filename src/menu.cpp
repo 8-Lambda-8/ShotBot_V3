@@ -109,6 +109,8 @@ void updateButtons() {
     }
   } else {
     if (button_keyDown[0]) {  // Start Fill
+      menu_print(0, 1, "                    ");
+      menu_print(0, 2, "                    ");
       state = 10;
     } else {
       switch (menuState) {
