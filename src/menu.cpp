@@ -20,6 +20,7 @@ extern uint8_t state;
 extern uint8_t stateL;
 extern uint8_t currentPos;
 extern uint8_t filledCount;
+extern uint8_t selectedML;
 uint8_t menuState = 0;
 
 void menu_init() {
@@ -74,6 +75,11 @@ void updateDisplay() {
         menu_print(0, 2, "                    ");
         menu_print(0, 3, "[Fill][ml][cnt][mov]");
         break;
+      case 10:
+        menu_print(0, 1, " Change fill amount ");
+        menu_printf(0, 2, "     %02d ml", selectedML);
+        menu_print(0, 3, "[Fill] [-] [+] [esc]");
+        break;
 
       default:
         break;
@@ -115,6 +121,14 @@ void updateButtons() {
             menuState = 30;
           }
           break;
+        case 10:
+          if (button_keyDown[1]) {
+            selectedML--;
+          } else if (button_keyDown[2]) {
+            selectedML++;
+          } else if (button_keyDown[3]) {
+            menuState = 0;
+          }
         default:
           break;
       }
