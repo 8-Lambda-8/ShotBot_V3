@@ -36,8 +36,6 @@ float Y_currentPosition() { return (float)stepper_Y.currentPosition() / steps_pe
 
 void move_home() {
   Serial.println("Move Home");
-  Serial.println(X_currentPosition());
-  Serial.println(Y_currentPosition());
 
   stepper_X.moveTo(0);
   stepper_Y.moveTo(0);
