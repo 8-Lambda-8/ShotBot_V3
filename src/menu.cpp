@@ -77,7 +77,7 @@ void updateDisplay() {
         break;
       case 10:
         menu_print(0, 1, " Change fill amount ");
-        menu_printf(0, 2, "     %02d ml", selectedML);
+        menu_printf(0, 2, "     %02d ml         ", selectedML);
         menu_print(0, 3, "[Fill] [-] [+] [esc]");
         break;
 
