@@ -72,7 +72,7 @@ void updateDisplay() {
         menu_print(0, 0, "#  Shot Bot v3.0   #");
         menu_print(0, 1, "                    ");
         menu_print(0, 2, "                    ");
-        menu_print(0, 3, "[Fill][  ] [  ] [  ]");
+        menu_print(0, 3, "[Fill][ml][cnt][mov]");
         break;
 
       default:
@@ -104,6 +104,20 @@ void updateButtons() {
   } else {
     if (button_keyDown[0]) {  // Start Fill
       state = 10;
+    } else {
+      switch (menuState) {
+        case 0:
+          if (button_keyDown[1]) {
+            menuState = 10;
+          } else if (button_keyDown[2]) {
+            menuState = 20;
+          } else if (button_keyDown[3]) {
+            menuState = 30;
+          }
+          break;
+        default:
+          break;
+      }
     }
   }
 }
