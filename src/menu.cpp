@@ -58,7 +58,7 @@ void updateDisplay() {
         menu_printf(0, 2, "Pos %d", currentPos);
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
         break;
-      case 13: {
+      case 14: {
         menu_printf(0, 2, "%d ml", current_ml());
         menu_print(0, 3, "[Abort][ ] [ ][Next]");
       }
