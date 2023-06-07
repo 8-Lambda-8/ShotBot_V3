@@ -6,6 +6,7 @@
 
 #include "move.h"
 #include "pin_config.h"
+#include "position.h"
 #include "pump.h"
 
 void menu_init();

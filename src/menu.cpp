@@ -130,17 +130,17 @@ void updateButtons() {
           }
           break;
         case 10:  // ml Menu
-          if (button_keyDown[1]) {
+          if (button_keyDown[1] && selectedML > 0) {
             selectedML--;
-          } else if (button_keyDown[2]) {
+          } else if (button_keyDown[2] && selectedML < 40) {
             selectedML++;
           } else if (button_keyDown[3]) {
             menuState = 0;
           }
         case 20:  // count Menu
-          if (button_keyDown[1]) {
+          if (button_keyDown[1] && selectedCount > 2) {
             selectedCount--;
-          } else if (button_keyDown[2]) {
+          } else if (button_keyDown[2] && selectedCount < PosCount) {
             selectedCount++;
           } else if (button_keyDown[3]) {
             menuState = 0;
