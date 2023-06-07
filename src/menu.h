@@ -16,5 +16,4 @@ void menu_print(uint8_t x, uint8_t y, const String& s);
 
 void menu_printf(uint8_t x, uint8_t y, const char* format, ...);
 
-
 #endif /* MENU_H */
