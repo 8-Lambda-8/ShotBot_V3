@@ -1,6 +1,5 @@
 #include <Arduino.h>
 
-#include "global_vars.h"
 #include "menu.h"
 #include "move.h"
 #include "pin_config.h"
@@ -30,6 +29,8 @@ String serialString = "";
 
 unsigned long loopCounter = 0;
 unsigned long loopShowTimer = 0;
+extern uint8_t state = 0;
+extern uint8_t currentPos = 0;
 
 void loop() {
   if (Serial.available()) {

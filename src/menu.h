@@ -4,7 +4,6 @@
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
 
-#include "global_vars.h"
 #include "move.h"
 #include "pin_config.h"
 #include "pump.h"

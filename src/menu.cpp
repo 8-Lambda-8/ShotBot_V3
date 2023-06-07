@@ -16,6 +16,7 @@ Button buttons[4] = {{Button1, false, false, 0},
 
 bool button_keyDown[4] = {false, false, false, false};
 
+extern uint8_t state;
 uint8_t menuState = 0;
 
 void menu_init() {
