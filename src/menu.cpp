@@ -17,6 +17,7 @@ Button buttons[4] = {{Button1, false, false, 0},
 bool button_keyDown[4] = {false, false, false, false};
 
 extern uint8_t state;
+extern uint8_t currentPos;
 uint8_t menuState = 0;
 
 void menu_init() {
@@ -53,6 +54,7 @@ void updateDisplay() {
     menuState = 0;
     switch (state) {
       case 10:
+        menu_printf(0, 2, "Pos %d", currentPos);
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
         break;
       case 13: {
