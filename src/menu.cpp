@@ -48,7 +48,8 @@ void menu_printf(uint8_t x, uint8_t y, const char *format, A... args) {
 };
 
 void updateDisplay() {
-  if (state != 0 && move_finished()) {
+  if (!move_finished()) return;
+  if (state != 0) {
     menuState = 0;
     switch (state) {
       case 10:
