@@ -31,6 +31,7 @@ unsigned long loopCounter = 0;
 unsigned long loopShowTimer = 0;
 
 extern uint8_t state = 0;
+extern uint8_t stateL = 0;
 extern uint8_t currentPos = 0;
 
 void loop() {
@@ -81,6 +82,7 @@ void loop() {
     }
   }
 
+  stateL = state;
   if (move_finished() && pump_finished()) {
     switch (state) {
       case 10:  // Move to Glass Pos

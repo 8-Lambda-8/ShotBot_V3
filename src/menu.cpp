@@ -17,6 +17,7 @@ Button buttons[4] = {{Button1, false, false, 0},
 bool button_keyDown[4] = {false, false, false, false};
 
 extern uint8_t state;
+extern uint8_t stateL;
 extern uint8_t currentPos;
 uint8_t menuState = 0;
 
@@ -109,7 +110,7 @@ void updateButtons() {
 unsigned long displayUpdateTimer = 0;
 
 void menu_loop() {
-  if (millis() - displayUpdateTimer > 1000) {
+  if (millis() - displayUpdateTimer > 1000 || state != stateL) {
     displayUpdateTimer = millis();
     updateDisplay();
   }
