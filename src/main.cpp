@@ -35,6 +35,7 @@ extern uint8_t stateL = 0;
 extern uint8_t currentPos = 0;
 extern uint8_t filledCount = 0;
 extern uint8_t selectedML = 20;
+extern uint8_t selectedCount = 20;
 
 void loop() {
   if (Serial.available()) {
@@ -89,7 +90,7 @@ void loop() {
     switch (state) {
       case 10:  // Move to Glass Pos
         Serial.println("10 Move To Pos");
-        if (currentPos >= PosCount) {
+        if (currentPos >= PosCount || filledCount >= selectedCount) {
           state = 0;
           currentPos = 0;
           filledCount = 0;
