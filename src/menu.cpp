@@ -127,6 +127,10 @@ void updateButtons() {
       menu_print(0, 2, "                    ");
       state = 10;
     } else {
+      if (menuState > 9 && button_keyDown[3]) {
+        menuState = 0;
+        return;
+      }
       switch (menuState) {
         case 0:  // Home Menu
           if (button_keyDown[1]) {
@@ -142,17 +146,15 @@ void updateButtons() {
             selectedML -= 2;
           } else if (button_keyDown[2] && selectedML < 40) {
             selectedML += 2;
-          } else if (button_keyDown[3]) {
-            menuState = 0;
           }
+          break;
         case 20:  // count Menu
           if (button_keyDown[1] && selectedCount > 2) {
             selectedCount--;
           } else if (button_keyDown[2] && selectedCount < PosCount) {
             selectedCount++;
-          } else if (button_keyDown[3]) {
-            menuState = 0;
           }
+          break;
         case 30:  // Drink Menu
           if (button_keyDown[1]) {
             selectedDrink--;
@@ -160,9 +162,8 @@ void updateButtons() {
           } else if (button_keyDown[2]) {
             selectedDrink++;
             if (selectedDrink > 3) selectedDrink = 0;
-          } else if (button_keyDown[3]) {
-            menuState = 0;
           }
+          break;
         default:
           break;
       }
