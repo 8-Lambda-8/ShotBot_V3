@@ -75,8 +75,8 @@ void updateDisplay() {
     switch (menuState) {
       case 0:  // Home Menu
         menu_print(0, 0, "#  Shot Bot v3.0   #");
-        menu_print(0, 1, "                    ");
-        menu_print(0, 2, "                    ");
+        menu_printf(0, 1, "  %s   ", drinkNames[selectedDrink]);
+        menu_printf(0, 2, "  %02d ml      %02d     ", selectedML, selectedCount);
         menu_print(0, 3, "[Fill][ml][cnt][sel]");
         break;
       case 10:  // ml Menu
@@ -91,7 +91,7 @@ void updateDisplay() {
         break;
       case 30:  // Drink Menu
         menu_print(0, 1, "   Drink Selection  ");
-        menu_printf(0, 2, "  %s", drinkNames[selectedDrink]);
+        menu_printf(0, 2, "  %s   ", drinkNames[selectedDrink]);
         menu_print(0, 3, "[Fill] [<] [>] [esc]");
         break;
 
