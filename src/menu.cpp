@@ -87,28 +87,28 @@ void updateDisplay() {
       menu_print(0, 0, "#  Shot Bot v3.0   #");
       menu_printf(0, 1, "  %s   ", drinkNames[selectedDrink]);
       menu_printf(0, 2, "  %02d ml      %02d     ", selectedML, selectedCount);
-      menu_printf(0, 3, "[Fill][ml][cnt] [%c]", 0x01);
+      menu_printf(0, 3, "[Fill][ml][sel] [%c]", 0x01);
       break;
     case 1:  // Home Menu 2
       menu_print(0, 0, "#  Shot Bot v3.0   #");
       menu_print(0, 1, "                    ");
       menu_print(0, 2, "                    ");
-      menu_printf(0, 3, "[Fill][sel][mov] [%c]", 0x02);
+      menu_printf(0, 3, "[Fill][cnt][mov] [%c]", 0x02);
       break;
     case 10:  // ml Menu
       menu_print(0, 1, " Change fill amount ");
       menu_printf(0, 2, "        %02d ml       ", selectedML);
       menu_print(0, 3, "[Fill] [-] [+] [esc]");
       break;
-    case 20:  // count Menu
-      menu_print(0, 1, "    Change count    ");
-      menu_printf(0, 2, "         %02d         ", selectedCount);
-      menu_print(0, 3, "[Fill] [-] [+] [esc]");
-      break;
-    case 30:  // Drink Menu
+    case 20:  // Drink Menu
       menu_print(0, 1, "   Drink Selection  ");
       menu_printf(0, 2, "  %s   ", drinkNames[selectedDrink]);
       menu_print(0, 3, "[Fill] [<] [>] [esc]");
+      break;
+    case 30:  // count Menu
+      menu_print(0, 1, "    Change count    ");
+      menu_printf(0, 2, "         %02d         ", selectedCount);
+      menu_print(0, 3, "[Fill] [-] [+] [esc]");
       break;
     case 40:  // Move Menu
       menu_print(0, 1, "    Move    ");
@@ -182,20 +182,20 @@ void updateButtons() {
         selectedML += 2;
       }
       break;
-    case 20:  // count Menu
-      if (button_keyDown[1] && selectedCount > 2) {
-        selectedCount--;
-      } else if (button_keyDown[2] && selectedCount < PosCount) {
-        selectedCount++;
-      }
-      break;
-    case 30:  // Drink Menu
+    case 20:  // Drink Menu
       if (button_keyDown[1]) {
         selectedDrink--;
         if (selectedDrink > 200) selectedDrink = 3;
       } else if (button_keyDown[2]) {
         selectedDrink++;
         if (selectedDrink > 3) selectedDrink = 0;
+      }
+      break;
+    case 30:  // count Menu
+      if (button_keyDown[1] && selectedCount > 2) {
+        selectedCount--;
+      } else if (button_keyDown[2] && selectedCount < PosCount) {
+        selectedCount++;
       }
       break;
     default:
