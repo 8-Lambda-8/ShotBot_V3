@@ -71,34 +71,33 @@ void updateDisplay() {
       default:
         break;
     }
+    return;
+  }
+  switch (menuState) {
+    case 0:  // Home Menu
+      menu_print(0, 0, "#  Shot Bot v3.0   #");
+      menu_printf(0, 1, "  %s   ", drinkNames[selectedDrink]);
+      menu_printf(0, 2, "  %02d ml      %02d     ", selectedML, selectedCount);
+      menu_print(0, 3, "[Fill][ml][cnt][sel]");
+      break;
+    case 10:  // ml Menu
+      menu_print(0, 1, " Change fill amount ");
+      menu_printf(0, 2, "        %02d ml       ", selectedML);
+      menu_print(0, 3, "[Fill] [-] [+] [esc]");
+      break;
+    case 20:  // count Menu
+      menu_print(0, 1, "    Change count    ");
+      menu_printf(0, 2, "         %02d         ", selectedCount);
+      menu_print(0, 3, "[Fill] [-] [+] [esc]");
+      break;
+    case 30:  // Drink Menu
+      menu_print(0, 1, "   Drink Selection  ");
+      menu_printf(0, 2, "  %s   ", drinkNames[selectedDrink]);
+      menu_print(0, 3, "[Fill] [<] [>] [esc]");
+      break;
 
-  } else if (state == 0) {
-    switch (menuState) {
-      case 0:  // Home Menu
-        menu_print(0, 0, "#  Shot Bot v3.0   #");
-        menu_printf(0, 1, "  %s   ", drinkNames[selectedDrink]);
-        menu_printf(0, 2, "  %02d ml      %02d     ", selectedML, selectedCount);
-        menu_print(0, 3, "[Fill][ml][cnt][sel]");
-        break;
-      case 10:  // ml Menu
-        menu_print(0, 1, " Change fill amount ");
-        menu_printf(0, 2, "        %02d ml       ", selectedML);
-        menu_print(0, 3, "[Fill] [-] [+] [esc]");
-        break;
-      case 20:  // count Menu
-        menu_print(0, 1, "    Change count    ");
-        menu_printf(0, 2, "         %02d         ", selectedCount);
-        menu_print(0, 3, "[Fill] [-] [+] [esc]");
-        break;
-      case 30:  // Drink Menu
-        menu_print(0, 1, "   Drink Selection  ");
-        menu_printf(0, 2, "  %s   ", drinkNames[selectedDrink]);
-        menu_print(0, 3, "[Fill] [<] [>] [esc]");
-        break;
-
-      default:
-        break;
-    }
+    default:
+      break;
   }
 }
 
@@ -113,6 +112,7 @@ void updateButtons() {
   }
 
   if (state != 0) {
+    // when Filling
     if (button_keyDown[0]) {  // Abort
       state = 0;
       currentPos = 0;
@@ -122,54 +122,57 @@ void updateButtons() {
     } else if (state == 14 && button_keyDown[3]) {
       pump_stop();  // next glass
     }
-  } else {
-    if (button_keyDown[0]) {  // Start Fill
-      menu_print(0, 1, "                    ");
-      menu_print(0, 2, "                    ");
-      state = 10;
-    } else {
-      if (menuState > 9 && button_keyDown[3]) {
-        menuState = 0;
-        return;
+    return;
+  }
+
+  // in Menu:
+  if (button_keyDown[0]) {  // Start Fill
+    menu_print(0, 1, "                    ");
+    menu_print(0, 2, "                    ");
+    state = 10;
+    return;
+  }
+
+  if (menuState > 9 && button_keyDown[3]) {
+    menuState = 0;
+    return;
+  }
+  switch (menuState) {
+    case 0:  // Home Menu
+      if (button_keyDown[1]) {
+        menuState = 10;
+      } else if (button_keyDown[2]) {
+        menuState = 20;
+      } else if (button_keyDown[3]) {
+        menuState = 30;
       }
-      switch (menuState) {
-        case 0:  // Home Menu
-          if (button_keyDown[1]) {
-            menuState = 10;
-          } else if (button_keyDown[2]) {
-            menuState = 20;
-          } else if (button_keyDown[3]) {
-            menuState = 30;
-          }
-          break;
-        case 10:  // ml Menu
-          if (button_keyDown[1] && selectedML > 10) {
-            selectedML -= 2;
-          } else if (button_keyDown[2] && selectedML < 40) {
-            selectedML += 2;
-          }
-          break;
-        case 20:  // count Menu
-          if (button_keyDown[1] && selectedCount > 2) {
-            selectedCount--;
-          } else if (button_keyDown[2] && selectedCount < PosCount) {
-            selectedCount++;
-          }
-          break;
-        case 30:  // Drink Menu
-          if (button_keyDown[1]) {
-            selectedDrink--;
-            if (selectedDrink > 200) selectedDrink = 3;
-          } else if (button_keyDown[2]) {
-            selectedDrink++;
-            if (selectedDrink > 3) selectedDrink = 0;
-          }
-          break;
-        default:
-          menuState = 0;
-          break;
+      break;
+    case 10:  // ml Menu
+      if (button_keyDown[1] && selectedML > 10) {
+        selectedML -= 2;
+      } else if (button_keyDown[2] && selectedML < 40) {
+        selectedML += 2;
       }
-    }
+      break;
+    case 20:  // count Menu
+      if (button_keyDown[1] && selectedCount > 2) {
+        selectedCount--;
+      } else if (button_keyDown[2] && selectedCount < PosCount) {
+        selectedCount++;
+      }
+      break;
+    case 30:  // Drink Menu
+      if (button_keyDown[1]) {
+        selectedDrink--;
+        if (selectedDrink > 200) selectedDrink = 3;
+      } else if (button_keyDown[2]) {
+        selectedDrink++;
+        if (selectedDrink > 3) selectedDrink = 0;
+      }
+      break;
+    default:
+      menuState = 0;
+      break;
   }
 }
 
