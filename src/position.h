@@ -13,4 +13,6 @@ const uint8_t fillOffset = 20;  // mm
 void movePos(uint8_t id);
 void movePosFill(uint8_t id);
 
+bool isRightSide(uint8_t id);
+
 #endif /* POSITION_H */

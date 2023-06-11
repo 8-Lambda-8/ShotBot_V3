@@ -23,7 +23,7 @@ extern uint8_t filledCount;
 extern uint8_t selectedML;
 extern uint8_t selectedCount;
 extern uint8_t selectedDrink;
-const char *drinkNames[] = {"Ramazotti", "Luft     ", "Halb/Halb"};
+const char *drinkNames[] = {"Ramazotti     ", "Luft          ", "Halb / Halb   ", "Links | Rechts"};
 uint8_t menuState = 0;
 
 void menu_init() {
@@ -156,10 +156,10 @@ void updateButtons() {
         case 30:  // Drink Menu
           if (button_keyDown[1]) {
             selectedDrink--;
-            if (selectedDrink > 200) selectedDrink = 2;
+            if (selectedDrink > 200) selectedDrink = 3;
           } else if (button_keyDown[2]) {
             selectedDrink++;
-            if (selectedDrink > 2) selectedDrink = 0;
+            if (selectedDrink > 3) selectedDrink = 0;
           } else if (button_keyDown[3]) {
             menuState = 0;
           }
@@ -173,7 +173,7 @@ void updateButtons() {
 unsigned long displayUpdateTimer = 0;
 
 void menu_loop() {
-  if (millis() - displayUpdateTimer > 500 || state != stateL) {
+  if (millis() - displayUpdateTimer > 150 || state != stateL) {
     displayUpdateTimer = millis();
     updateDisplay();
   }

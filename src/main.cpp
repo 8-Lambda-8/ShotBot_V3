@@ -123,12 +123,22 @@ void loop() {
         break;
       case 13:  // start Glass Fill
         Serial.println("13 enable Pump");
-        pump(selectedDrink, selectedML);
+        if (selectedDrink == 3 && !isRightSide(currentPos))
+          pump(1, selectedML);
+        else if (selectedDrink == 3 && isRightSide(currentPos))
+          pump(2, selectedML);
+        else
+          pump(selectedDrink, selectedML);
         state++;
         break;
       case 14:  // Pump Retraction
         Serial.println("14 enable Pump");
-        pump(selectedDrink, 1, true);
+        if (selectedDrink == 3 && !isRightSide(currentPos))
+          pump(1, selectedML);
+        else if (selectedDrink == 3 && isRightSide(currentPos))
+          pump(2, selectedML);
+        else
+          pump(selectedDrink, 1, true);
         state++;
         break;
       case 15:  // next Glass
