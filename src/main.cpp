@@ -10,8 +10,8 @@ void setup() {
   menu_init();
   Serial.begin(115200);
 
-  while (!Serial)
-    ;
+  /* while (!Serial)
+    ; */
   Serial.println("Start...");
 
   move_init();
@@ -124,9 +124,9 @@ void loop() {
       case 13:  // start Glass Fill
         Serial.println("13 enable Pump");
         if (selectedDrink == 3 && !isRightSide(currentPos))
-          pump(1, selectedML);
+          pump(0, selectedML);
         else if (selectedDrink == 3 && isRightSide(currentPos))
-          pump(2, selectedML);
+          pump(1, selectedML);
         else
           pump(selectedDrink, selectedML);
         state++;
@@ -134,9 +134,9 @@ void loop() {
       case 14:  // Pump Retraction
         Serial.println("14 enable Pump");
         if (selectedDrink == 3 && !isRightSide(currentPos))
-          pump(1, selectedML);
+          pump(0, selectedML);
         else if (selectedDrink == 3 && isRightSide(currentPos))
-          pump(2, selectedML);
+          pump(1, selectedML);
         else
           pump(selectedDrink, 1, true);
         state++;
