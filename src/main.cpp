@@ -36,6 +36,7 @@ extern uint8_t currentPos = 0;
 extern uint8_t filledCount = 0;
 extern uint8_t selectedML = 20;
 extern uint8_t selectedCount = 20;
+extern uint8_t selectedDrink = 0;  // 0 = Pump 1; 1 = Pump 2; 2 = half of both
 
 void loop() {
   if (Serial.available()) {
@@ -122,12 +123,12 @@ void loop() {
         break;
       case 13:  // start Glass Fill
         Serial.println("13 enable Pump");
-        pump(0, selectedML);
+        pump(selectedDrink, selectedML);
         state++;
         break;
       case 14:  // Pump Retraction
         Serial.println("14 enable Pump");
-        pump(0, 1, true);
+        pump(selectedDrink, 1, true);
         state++;
         break;
       case 15:  // next Glass

@@ -22,6 +22,8 @@ extern uint8_t currentPos;
 extern uint8_t filledCount;
 extern uint8_t selectedML;
 extern uint8_t selectedCount;
+extern uint8_t selectedDrink;
+const char *drinkNames[] = {"Ramazotti", "Luft", "Halb/Halb"};
 uint8_t menuState = 0;
 
 void menu_init() {
@@ -74,7 +76,7 @@ void updateDisplay() {
         menu_print(0, 0, "#  Shot Bot v3.0   #");
         menu_print(0, 1, "                    ");
         menu_print(0, 2, "                    ");
-        menu_print(0, 3, "[Fill][ml][cnt][mov]");
+        menu_print(0, 3, "[Fill][ml][cnt][sel]");
         break;
       case 10:  // ml Menu
         menu_print(0, 1, " Change fill amount ");
@@ -85,6 +87,11 @@ void updateDisplay() {
         menu_print(0, 1, "    Change count    ");
         menu_printf(0, 2, "         %02d         ", selectedCount);
         menu_print(0, 3, "[Fill] [-] [+] [esc]");
+        break;
+      case 30:  // Drink Menu
+        menu_print(0, 1, "   Drink Selection  ");
+        menu_printf(0, 2, "  %s", drinkNames[selectedDrink]);
+        menu_print(0, 3, "[Fill] [<] [>] [esc]");
         break;
 
       default:
@@ -142,6 +149,16 @@ void updateButtons() {
             selectedCount--;
           } else if (button_keyDown[2] && selectedCount < PosCount) {
             selectedCount++;
+          } else if (button_keyDown[3]) {
+            menuState = 0;
+          }
+        case 30:  // Drink Menu
+          if (button_keyDown[1]) {
+            selectedDrink--;
+            if (selectedDrink > 200) selectedDrink = 2;
+          } else if (button_keyDown[2]) {
+            selectedDrink++;
+            if (selectedDrink > 2) selectedDrink = 0;
           } else if (button_keyDown[3]) {
             menuState = 0;
           }
