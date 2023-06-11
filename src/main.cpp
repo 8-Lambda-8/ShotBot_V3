@@ -134,9 +134,9 @@ void loop() {
       case 14:  // Pump Retraction
         Serial.println("14 enable Pump");
         if (selectedDrink == 3 && !isRightSide(currentPos))
-          pump(0, selectedML);
+          pump(0, 1, true);
         else if (selectedDrink == 3 && isRightSide(currentPos))
-          pump(1, selectedML);
+          pump(1, 1, true);
         else
           pump(selectedDrink, 1, true);
         state++;
