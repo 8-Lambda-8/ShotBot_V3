@@ -2,6 +2,13 @@
 
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 
+uint8_t downArrowChar[] = {
+    0b00000, 0b00000, 0b10001, 0b01010, 0b10101, 0b01010, 0b00100, 0b00000,
+};
+uint8_t upArrowChar[] = {
+    0b00000, 0b00100, 0b01010, 0b10101, 0b01010, 0b10001, 0b00000, 0b00000,
+};
+
 struct Button {
   uint8_t BtnPin;
   bool BtnState;
@@ -29,6 +36,8 @@ uint8_t menuState = 0;
 void menu_init() {
   lcd.init();
   lcd.backlight();
+  lcd.createChar(1, downArrowChar);
+  lcd.createChar(2, upArrowChar);
 
   for (auto &&btn : buttons) {
     pinMode(btn.BtnPin, INPUT);
@@ -78,7 +87,13 @@ void updateDisplay() {
       menu_print(0, 0, "#  Shot Bot v3.0   #");
       menu_printf(0, 1, "  %s   ", drinkNames[selectedDrink]);
       menu_printf(0, 2, "  %02d ml      %02d     ", selectedML, selectedCount);
-      menu_print(0, 3, "[Fill][ml][cnt][sel]");
+      menu_printf(0, 3, "[Fill][ml][cnt] [%c]", 0x01);
+      break;
+    case 1:  // Home Menu 2
+      menu_print(0, 0, "#  Shot Bot v3.0   #");
+      menu_print(0, 1, "                    ");
+      menu_print(0, 2, "                    ");
+      menu_printf(0, 3, "[Fill][sel][mov] [%c]", 0x02);
       break;
     case 10:  // ml Menu
       menu_print(0, 1, " Change fill amount ");
@@ -144,7 +159,16 @@ void updateButtons() {
       } else if (button_keyDown[2]) {
         menuState = 20;
       } else if (button_keyDown[3]) {
+        menuState = 1;
+      }
+      break;
+    case 1:  // Home Menu
+      if (button_keyDown[1]) {
         menuState = 30;
+      } else if (button_keyDown[2]) {
+        menuState = 40;
+      } else if (button_keyDown[3]) {
+        menuState = 0;
       }
       break;
     case 10:  // ml Menu
