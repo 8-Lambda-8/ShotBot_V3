@@ -110,6 +110,10 @@ void updateDisplay() {
       menu_printf(0, 2, "  %s   ", drinkNames[selectedDrink]);
       menu_print(0, 3, "[Fill] [<] [>] [esc]");
       break;
+    case 40:  // Move Menu
+      menu_print(0, 1, "    Move    ");
+      menu_print(0, 3, "[sel] [-5][+5] [esc]");
+      break;
 
     default:
       break;
