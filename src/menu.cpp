@@ -137,10 +137,10 @@ void updateButtons() {
           }
           break;
         case 10:  // ml Menu
-          if (button_keyDown[1] && selectedML > 0) {
-            selectedML--;
+          if (button_keyDown[1] && selectedML > 10) {
+            selectedML -= 2;
           } else if (button_keyDown[2] && selectedML < 40) {
-            selectedML++;
+            selectedML += 2;
           } else if (button_keyDown[3]) {
             menuState = 0;
           }
