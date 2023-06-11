@@ -59,6 +59,7 @@ void updateDisplay() {
     switch (state) {
       case 10:
         menu_printf(0, 1, " Pos %02d  Count %02d   ", currentPos, filledCount);
+        menu_print(0, 2, "                    ");
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
         break;
       case 14: {
