@@ -23,7 +23,7 @@ extern uint8_t filledCount;
 extern uint8_t selectedML;
 extern uint8_t selectedCount;
 extern uint8_t selectedDrink;
-const char *drinkNames[] = {"Ramazotti", "Luft", "Halb/Halb"};
+const char *drinkNames[] = {"Ramazotti", "Luft     ", "Halb/Halb"};
 uint8_t menuState = 0;
 
 void menu_init() {
