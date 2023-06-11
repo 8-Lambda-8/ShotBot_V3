@@ -17,6 +17,7 @@ uint32_t pumpTime = 0;
 uint64_t pumpTimer = 0;
 
 bool pumpFinished = true;
+bool dualPump = false;
 
 void pump(uint8_t pump_id, uint8_t ml) { pump(pump_id, ml, false); };
 
@@ -26,6 +27,7 @@ void pump(uint8_t pump_id, uint8_t ml, bool reverse) {
   pumpTime = ml * milisPerML;
   pumpTimer = millis();
   pumpFinished = false;
+  dualPump = false;
 
   if (pump_id == 0 && reverse) {
     digitalWrite(PUMP_A_A, HIGH);
@@ -36,10 +38,12 @@ void pump(uint8_t pump_id, uint8_t ml, bool reverse) {
   } else if (pump_id == 1) {
     digitalWrite(PUMP_B_B, HIGH);
   } else if (pump_id == 2 && reverse) {
+    dualPump = true;
     digitalWrite(PUMP_A_A, HIGH);
     digitalWrite(PUMP_B_A, HIGH);
     pumpTime = pumpTime / 2;
   } else if (pump_id == 2) {
+    dualPump = true;
     digitalWrite(PUMP_A_B, HIGH);
     digitalWrite(PUMP_B_B, HIGH);
     pumpTime = pumpTime / 2;
@@ -48,7 +52,7 @@ void pump(uint8_t pump_id, uint8_t ml, bool reverse) {
 
 bool pump_finished() { return pumpFinished; }
 
-uint8_t current_ml() { return (millis() - pumpTimer) / milisPerML; }
+uint8_t current_ml() { return (millis() - pumpTimer) / (milisPerML / dualPump ? 2 : 1); }
 
 void pump_stop() {
   pumpFinished = true;
