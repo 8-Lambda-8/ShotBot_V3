@@ -30,22 +30,22 @@ void pump(uint8_t pump_id, uint8_t ml, bool reverse) {
   dualPump = false;
 
   if (pump_id == 0 && reverse) {
-    digitalWrite(PUMP_A_A, HIGH);
+    digitalWrite(PUMP_A_A, LOW);
   } else if (pump_id == 0) {
-    digitalWrite(PUMP_A_B, HIGH);
+    digitalWrite(PUMP_A_B, LOW);
   } else if (pump_id == 1 && reverse) {
-    digitalWrite(PUMP_B_A, HIGH);
+    digitalWrite(PUMP_B_A, LOW);
   } else if (pump_id == 1) {
-    digitalWrite(PUMP_B_B, HIGH);
+    digitalWrite(PUMP_B_B, LOW);
   } else if (pump_id == 2 && reverse) {
     dualPump = true;
-    digitalWrite(PUMP_A_A, HIGH);
-    digitalWrite(PUMP_B_A, HIGH);
+    digitalWrite(PUMP_A_A, LOW);
+    digitalWrite(PUMP_B_A, LOW);
     pumpTime = pumpTime / 2;
   } else if (pump_id == 2) {
     dualPump = true;
-    digitalWrite(PUMP_A_B, HIGH);
-    digitalWrite(PUMP_B_B, HIGH);
+    digitalWrite(PUMP_A_B, LOW);
+    digitalWrite(PUMP_B_B, LOW);
     pumpTime = pumpTime / 2;
   }
 }
