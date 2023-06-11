@@ -165,6 +165,7 @@ void updateButtons() {
           }
           break;
         default:
+          menuState = 0;
           break;
       }
     }
