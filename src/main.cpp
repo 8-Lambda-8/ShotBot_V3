@@ -35,7 +35,7 @@ extern uint8_t stateL = 0;
 extern uint8_t currentPos = 0;
 extern uint8_t filledCount = 0;
 extern uint8_t selectedML = 20;
-extern uint8_t selectedCount = 20;
+extern uint8_t selectedCount = 24;
 extern uint8_t selectedDrink = 0;  // 0 = Pump 1; 1 = Pump 2; 2 = half of both
 
 void loop() {
