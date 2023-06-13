@@ -41,7 +41,7 @@ extern uint8_t selectedML;
 extern uint8_t selectedCount;
 extern uint8_t selectedDrink;
 const char *drinkNames[] = {"Ramazotti     ", "Luft          ", "Halb / Halb   ", "Links | Rechts"};
-const CRGB drinkColors[]{CRGB::IndianRed, CRGB::Cyan};
+const CRGB drinkColors[]{CRGB::DarkRed, CRGB::Cyan};
 uint8_t menuState = 0;
 uint8_t menuCursor = 0;
 const char *moveOptions[] = {"X Axis", "Y Axis", "Pump 1", "Pump 2"};
@@ -92,6 +92,28 @@ void setButtonColors(CRGB b0, CRGB b1, CRGB b2, CRGB b3) {
   buttons[1].LedColor = b1;
   buttons[2].LedColor = b2;
   buttons[3].LedColor = b3;
+}
+
+void showDrinkColor(uint8_t selectedDrink) {
+  if (selectedDrink < 2) {
+    for (uint8_t i = 4; i < NUM_LEDS; i++) {
+      leds[i] = drinkColors[selectedDrink];
+    }
+  } else if (selectedDrink == 2) {
+    for (uint8_t i = 4; i < NUM_LEDS; i++) {
+      leds[i] = drinkColors[i % 2];
+    }
+  } else {
+    for (uint8_t i = 4; i < 11; i++) {
+      leds[i] = CRGB::Black;
+    }
+    for (uint8_t i = 11; i < 20; i++) {
+      leds[i] = drinkColors[1];
+    }
+    for (uint8_t i = 20; i < NUM_LEDS; i++) {
+      leds[i] = drinkColors[0];
+    }
+  }
 }
 
 template <class... A>
@@ -149,6 +171,7 @@ void updateDisplay() {
       menu_printf(0, 2, "  %s   ", drinkNames[selectedDrink]);
       menu_print(0, 3, "[Fill] [<] [>] [esc]");
       setButtonColors(CRGB::Green, CRGB::Blue, CRGB::Orange, CRGB::DarkRed);
+      showDrinkColor(selectedDrink);
       break;
     case 30:  // count Menu
       menu_print(0, 1, "    Change count    ");
