@@ -79,6 +79,13 @@ void menu_print(uint8_t x, uint8_t y, const String &s) {
   lcd.print(s);
 };
 
+void setButtonColors(CRGB b0, CRGB b1, CRGB b2, CRGB b3) {
+  buttons[0].LedColor = b0;
+  buttons[1].LedColor = b1;
+  buttons[2].LedColor = b2;
+  buttons[3].LedColor = b3;
+}
+
 template <class... A>
 void menu_printf(uint8_t x, uint8_t y, const char *format, A... args) {
   lcd.setCursor(x, y);
@@ -94,13 +101,12 @@ void updateDisplay() {
         menu_printf(0, 1, " Pos %02d  Count %02d   ", currentPos, filledCount);
         menu_print(0, 2, "                    ");
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
-        buttons[0].LedColor = CRGB::Red;
+        setButtonColors(CRGB::Red, CRGB::Black, CRGB::Black, CRGB::Black);
         break;
       case 14: {
         menu_printf(0, 2, " %02d / %02d ml         ", current_ml(), selectedML);
         menu_print(0, 3, "[Abort][ ] [ ][Next]");
-        buttons[0].LedColor = CRGB::Red;
-        buttons[0].LedColor = CRGB::Yellow;
+        setButtonColors(CRGB::Red, CRGB::Black, CRGB::Black, CRGB::Yellow);
         break;
       }
 
