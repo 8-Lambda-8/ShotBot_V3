@@ -32,6 +32,8 @@ extern uint8_t selectedCount;
 extern uint8_t selectedDrink;
 const char *drinkNames[] = {"Ramazotti     ", "Luft          ", "Halb / Halb   ", "Links | Rechts"};
 uint8_t menuState = 0;
+uint8_t menuCursor = 0;
+const char *moveOptions[] = {"X Axis", "Y Axis"};
 
 void menu_init() {
   lcd.init();
@@ -112,6 +114,8 @@ void updateDisplay() {
       break;
     case 40:  // Move Menu
       menu_print(0, 1, "    Move    ");
+      menu_printf(0, 2, " %s     %03d mm ", moveOptions[menuCursor],
+                  (uint8_t)(menuCursor == 0 ? X_currentPosition() : Y_currentPosition()));
       menu_print(0, 3, "[sel] [-5][+5] [esc]");
       break;
 
@@ -145,7 +149,7 @@ void updateButtons() {
   }
 
   // in Menu:
-  if (button_keyDown[0]) {  // Start Fill
+  if (button_keyDown[0] && menuState < 40) {  // Start Fill
     menu_print(0, 1, "                    ");
     menu_print(0, 2, "                    ");
     state = 10;
@@ -196,6 +200,24 @@ void updateButtons() {
         selectedCount--;
       } else if (button_keyDown[2] && selectedCount < PosCount) {
         selectedCount++;
+      }
+      break;
+    case 40:  // move Menu
+      if (button_keyDown[0]) {
+        menuCursor++;
+        if (menuCursor > 1) menuCursor = 0;
+      } else if (button_keyDown[1]) {
+        if (menuCursor == 0 && X_currentPosition() > 4) {
+          X_moveTo(X_currentPosition() - 5);
+        } else if (menuCursor == 1 && Y_currentPosition() > 4) {
+          Y_moveTo(Y_currentPosition() - 5);
+        }
+      } else if (button_keyDown[2]) {
+        if (menuCursor == 0 && X_currentPosition() < 196) {
+          X_moveTo(X_currentPosition() + 5);
+        } else if (menuCursor == 1 && Y_currentPosition() < 166) {
+          Y_moveTo(Y_currentPosition() + 5);
+        }
       }
       break;
     default:
