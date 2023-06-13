@@ -13,13 +13,14 @@ struct Button {
   uint8_t BtnPin;
   bool BtnState;
   bool BtnStateLast;
+  uint32_t lastPress;
   uint8_t id;
 };
 
-Button buttons[4] = {{Button1, false, false, 0},
-                     {Button2, false, false, 1},
-                     {Button3, false, false, 2},
-                     {Button4, false, false, 3}};
+Button buttons[4] = {{Button1, false, false, 0, 0},
+                     {Button2, false, false, 0, 1},
+                     {Button3, false, false, 0, 2},
+                     {Button4, false, false, 0, 3}};
 
 bool button_keyDown[4] = {false, false, false, false};
 
@@ -133,6 +134,9 @@ bool buttonRead(Button btn) { return !digitalRead(btn.BtnPin); }
 
 void updateButtons() {
   for (auto &&btn : buttons) {
+    button_keyDown[btn.id] = false;
+    if (millis() - btn.lastPress < 50) continue;
+    btn.lastPress = millis();
     btn.BtnStateLast = btn.BtnState;
     btn.BtnState = buttonRead(btn);
 
