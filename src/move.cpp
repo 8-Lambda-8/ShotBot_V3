@@ -38,7 +38,7 @@ void move_home() {
   Serial.println("Move Home");
 
   stepper_X.moveTo(0);
-  stepper_Y.moveTo(0);
+  stepper_Y.moveTo(161 * steps_per_mm_Y);
   while ((stepper_X.distanceToGo() != 0) || (stepper_Y.distanceToGo() != 0)) {
     stepper_X.run();
     stepper_Y.run();
