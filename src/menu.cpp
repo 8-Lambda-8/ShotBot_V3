@@ -14,7 +14,7 @@ uint8_t upArrowChar[] = {
 
 #define BRIGHTNESS 20
 
-#define NUM_LEDS 4
+#define NUM_LEDS 28
 CRGB leds[NUM_LEDS];
 
 struct Button {
@@ -41,6 +41,7 @@ extern uint8_t selectedML;
 extern uint8_t selectedCount;
 extern uint8_t selectedDrink;
 const char *drinkNames[] = {"Ramazotti     ", "Luft          ", "Halb / Halb   ", "Links | Rechts"};
+const CRGB drinkColors[]{CRGB::IndianRed, CRGB::Cyan};
 uint8_t menuState = 0;
 uint8_t menuCursor = 0;
 const char *moveOptions[] = {"X Axis", "Y Axis", "Pump 1", "Pump 2"};
@@ -58,6 +59,9 @@ void menu_init() {
     pinMode(btn.BtnPin, INPUT);
     leds[btn.id] = btn.LedColor;
   }
+  for (uint8_t i = 4; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Cyan;
+  }
 
   FastLED.show();
 
@@ -65,6 +69,9 @@ void menu_init() {
 
   for (auto &&btn : buttons) {
     leds[btn.id] = CRGB::Black;
+  }
+  for (uint8_t i = 4; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Black;
   }
   FastLED.show();
 
