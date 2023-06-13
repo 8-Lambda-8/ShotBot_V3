@@ -33,7 +33,7 @@ extern uint8_t selectedDrink;
 const char *drinkNames[] = {"Ramazotti     ", "Luft          ", "Halb / Halb   ", "Links | Rechts"};
 uint8_t menuState = 0;
 uint8_t menuCursor = 0;
-const char *moveOptions[] = {"X Axis", "Y Axis"};
+const char *moveOptions[] = {"X Axis", "Y Axis", "Pump 1", "Pump 2"};
 
 void menu_init() {
   lcd.init();
@@ -114,9 +114,14 @@ void updateDisplay() {
       break;
     case 40:  // Move Menu
       menu_print(0, 1, "    Move    ");
-      menu_printf(0, 2, " %s     %03d mm ", moveOptions[menuCursor],
-                  (uint8_t)(menuCursor == 0 ? X_currentPosition() : Y_currentPosition()));
-      menu_print(0, 3, "[sel] [-5][+5] [esc]");
+      if (menuCursor < 2) {
+        menu_printf(0, 2, " %s     %03d mm ", moveOptions[menuCursor],
+                    (uint8_t)(menuCursor == 0 ? X_currentPosition() : Y_currentPosition()));
+        menu_print(0, 3, "[sel] [-5][+5] [esc]");
+      } else {
+        menu_printf(0, 2, " %s            ", moveOptions[menuCursor]);
+        menu_print(0, 3, "[sel] [-]  [+] [esc]");
+      }
       break;
 
     default:
@@ -205,18 +210,28 @@ void updateButtons() {
     case 40:  // move Menu
       if (button_keyDown[0]) {
         menuCursor++;
-        if (menuCursor > 1) menuCursor = 0;
+        if (menuCursor > 3) menuCursor = 0;
       } else if (button_keyDown[1]) {
         if (menuCursor == 0 && X_currentPosition() > 4) {
           X_moveTo(X_currentPosition() - 5);
         } else if (menuCursor == 1 && Y_currentPosition() > 4) {
           Y_moveTo(Y_currentPosition() - 5);
+        } else {
+          if (pump_finished())
+            pump(menuCursor - 2, 5, true);
+          else
+            pump_stop();
         }
       } else if (button_keyDown[2]) {
-        if (menuCursor == 0 && X_currentPosition() < 196) {
+        if (menuCursor == 0 && X_currentPosition() < 246) {
           X_moveTo(X_currentPosition() + 5);
         } else if (menuCursor == 1 && Y_currentPosition() < 166) {
           Y_moveTo(Y_currentPosition() + 5);
+        } else {
+          if (pump_finished())
+            pump(menuCursor - 2, 5, false);
+          else
+            pump_stop();
         }
       }
       break;
