@@ -276,8 +276,7 @@ void menu_loop() {
   if (millis() - displayUpdateTimer > 150 || state != stateL) {
     displayUpdateTimer = millis();
     updateDisplay();
+    FastLED.show();
   }
   updateButtons();
-
-  FastLED.show();
 }
