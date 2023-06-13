@@ -95,11 +95,13 @@ void loop() {
           state = 0;
           currentPos = 0;
           filledCount = 0;
-        } else {
-          Serial.print("pos: ");
-          Serial.println(currentPos);
-          state++;
+          move_home();
+          return;
         }
+        Serial.print("pos: ");
+        Serial.println(currentPos);
+        state++;
+
         movePos(currentPos);
         break;
       case 11:  // sense Glass
