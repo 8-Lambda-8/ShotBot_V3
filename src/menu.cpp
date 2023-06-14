@@ -239,6 +239,7 @@ void updateButtons() {
       if (button_keyDown[0]) {
         menuCursor++;
         if (menuCursor > 3) menuCursor = 0;
+      } else if (!move_finished()) {
       } else if (button_keyDown[1]) {
         if (menuCursor == 0 && X_currentPosition() > 4) {
           X_moveTo(X_currentPosition() - 5);
