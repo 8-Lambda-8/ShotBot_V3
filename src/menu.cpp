@@ -94,6 +94,24 @@ void setButtonColors(CRGB b0, CRGB b1, CRGB b2, CRGB b3) {
   buttons[3].LedColor = b3;
 }
 
+void clearLedStrip() {
+  for (uint8_t i = 4; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Black;
+  }
+}
+
+void showMl(uint8_t ml) {
+  clearLedStrip();
+  uint8_t mlLedCount = map(ml, 0, 48, 0, 24);
+
+  for (uint8_t i = NUM_LEDS - 1; i > NUM_LEDS - mlLedCount - 1; i--) {
+    if (selectedDrink < 2)
+      leds[i] = drinkColors[selectedDrink];
+    else
+      leds[i] = drinkColors[i % 2];
+  }
+}
+
 void showDrinkColor(uint8_t selectedDrink) {
   if (selectedDrink < 2) {
     for (uint8_t i = 4; i < NUM_LEDS; i++) {
@@ -165,6 +183,7 @@ void updateDisplay() {
       menu_printf(0, 2, "        %02d ml       ", selectedML);
       menu_print(0, 3, "[Fill] [-] [+] [esc]");
       setButtonColors(CRGB::Green, CRGB::Blue, CRGB::Orange, CRGB::DarkRed);
+      showMl(selectedML);
       break;
     case 20:  // Drink Menu
       menu_print(0, 1, "   Drink Selection  ");
