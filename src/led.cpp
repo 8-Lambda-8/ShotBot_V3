@@ -6,6 +6,7 @@ const CRGB drinkColors[]{CRGB::DarkRed, CRGB::Cyan};
 
 void led_init() {
   FastLED.addLeds<CHIPSET, WS2812_Pin, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.setBrightness(128);
 
   for (uint8_t i = 0; i < 4; i++) {
     leds[i] = btnStartupColors[i];
