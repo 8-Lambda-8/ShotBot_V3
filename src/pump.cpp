@@ -52,7 +52,7 @@ void pump(uint8_t pump_id, uint8_t ml, bool reverse) {
 
 bool pump_finished() { return pumpFinished; }
 
-uint8_t current_ml() { return (millis() - pumpTimer) / (milisPerML / (dualPump ? 2 : 1)); }
+uint8_t current_ml() { return 1 + (millis() - pumpTimer) / (milisPerML / (dualPump ? 2 : 1)); }
 
 void pump_stop() {
   pumpFinished = true;
