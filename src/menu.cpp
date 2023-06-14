@@ -87,13 +87,12 @@ void updateDisplay() {
         menu_print(0, 3, "[Abort][ ] [ ][    ]");
         setButtonColors(CRGB::Red, CRGB::Black, CRGB::Black, CRGB::Black);
         break;
-      case 14: {
+      case 14:
         menu_printf(0, 2, " %02d / %02d ml         ", current_ml(), selectedML);
         menu_print(0, 3, "[Abort][ ] [ ][Next]");
         setButtonColors(CRGB::Red, CRGB::Black, CRGB::Black, CRGB::Yellow);
         showMl(current_ml(), selectedDrink, selectedML);
         break;
-      }
 
       default:
         break;
@@ -120,7 +119,7 @@ void updateDisplay() {
       menu_printf(0, 2, "        %02d ml       ", selectedML);
       menu_print(0, 3, "[Fill] [-] [+] [esc]");
       setButtonColors(CRGB::Green, CRGB::Blue, CRGB::Orange, CRGB::DarkRed);
-      showMl(selectedML, selectedDrink);
+      showMl(selectedML, selectedDrink, 40);
       break;
     case 20:  // Drink Menu
       menu_print(0, 1, "   Drink Selection  ");
