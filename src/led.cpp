@@ -38,9 +38,9 @@ void clearLedStrip() {
   }
 }
 
-void showMl(uint8_t ml, uint8_t selectedDrink) {
+void showMl(uint8_t ml, uint8_t selectedDrink, uint8_t max) {
   clearLedStrip();
-  uint8_t mlLedCount = map(ml, 0, 48, 0, 24);
+  uint8_t mlLedCount = map(ml, 0, max, 0, 24);
 
   for (uint8_t i = NUM_LEDS - 1; i > NUM_LEDS - mlLedCount - 1; i--) {
     if (selectedDrink < 2)

@@ -91,6 +91,7 @@ void updateDisplay() {
         menu_printf(0, 2, " %02d / %02d ml         ", current_ml(), selectedML);
         menu_print(0, 3, "[Abort][ ] [ ][Next]");
         setButtonColors(CRGB::Red, CRGB::Black, CRGB::Black, CRGB::Yellow);
+        showMl(current_ml(), selectedDrink, selectedML);
         break;
       }
 
