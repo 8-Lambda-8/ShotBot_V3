@@ -1,0 +1,78 @@
+#include "led.h"
+
+CRGB leds[NUM_LEDS];
+
+const CRGB drinkColors[]{CRGB::DarkRed, CRGB::Cyan};
+
+void led_init() {
+  FastLED.addLeds<CHIPSET, WS2812_Pin, COLOR_ORDER>(leds, NUM_LEDS);
+
+  for (uint8_t i = 0; i < 4; i++) {
+    leds[i] = btnStartupColors[i];
+  }
+
+  for (uint8_t i = 4; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Cyan;
+  }
+
+  FastLED.show();
+
+  delay(200);
+
+  for (uint8_t i = 0; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Black;
+  }
+  FastLED.show();
+}
+
+void updateButtonLeds(uint8_t id, CRGB col) { leds[id] = col; }
+
+void clearLedStrip() {
+  for (uint8_t i = 4; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Black;
+  }
+}
+
+void showMl(uint8_t ml, uint8_t selectedDrink) {
+  clearLedStrip();
+  uint8_t mlLedCount = map(ml, 0, 48, 0, 24);
+
+  for (uint8_t i = NUM_LEDS - 1; i > NUM_LEDS - mlLedCount - 1; i--) {
+    if (selectedDrink < 2)
+      leds[i] = drinkColors[selectedDrink];
+    else
+      leds[i] = drinkColors[i % 2];
+  }
+}
+
+void showDrinkColor(uint8_t selectedDrink) {
+  if (selectedDrink < 2) {
+    for (uint8_t i = 4; i < NUM_LEDS; i++) {
+      leds[i] = drinkColors[selectedDrink];
+    }
+  } else if (selectedDrink == 2) {
+    for (uint8_t i = 4; i < NUM_LEDS; i++) {
+      leds[i] = drinkColors[i % 2];
+    }
+  } else {
+    for (uint8_t i = 4; i < 11; i++) {
+      leds[i] = CRGB::Black;
+    }
+    for (uint8_t i = 11; i < 20; i++) {
+      leds[i] = drinkColors[1];
+    }
+    for (uint8_t i = 20; i < NUM_LEDS; i++) {
+      leds[i] = drinkColors[0];
+    }
+  }
+}
+
+void showCount(uint8_t selectedCount, uint8_t selectedDrink) {
+  clearLedStrip();
+  for (uint8_t i = NUM_LEDS - 1; i > NUM_LEDS - selectedCount - 1; i--) {
+    if (selectedDrink < 2)
+      leds[i] = drinkColors[selectedDrink];
+    else
+      leds[i] = drinkColors[i % 2];
+  }
+}

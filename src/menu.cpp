@@ -9,14 +9,6 @@ uint8_t upArrowChar[] = {
     0b00000, 0b00100, 0b01010, 0b10101, 0b01010, 0b10001, 0b00000, 0b00000,
 };
 
-#define COLOR_ORDER GRB
-#define CHIPSET WS2812
-
-#define BRIGHTNESS 20
-
-#define NUM_LEDS 28
-CRGB leds[NUM_LEDS];
-
 struct Button {
   uint8_t BtnPin;
   bool BtnState;
@@ -26,10 +18,10 @@ struct Button {
   CRGB LedColor;
 };
 
-Button buttons[4] = {{Button1, false, false, 0, 0, CRGB::Red},
-                     {Button2, false, false, 0, 1, CRGB::Green},
-                     {Button3, false, false, 0, 2, CRGB::Blue},
-                     {Button4, false, false, 0, 3, CRGB::Yellow}};
+Button buttons[4] = {{Button1, false, false, 0, 0, btnStartupColors[0]},
+                     {Button2, false, false, 0, 1, btnStartupColors[1]},
+                     {Button3, false, false, 0, 2, btnStartupColors[2]},
+                     {Button4, false, false, 0, 3, btnStartupColors[3]}};
 
 bool button_keyDown[4] = {false, false, false, false};
 
@@ -41,7 +33,7 @@ extern uint8_t selectedML;
 extern uint8_t selectedCount;
 extern uint8_t selectedDrink;
 const char *drinkNames[] = {"Ramazotti     ", "Luft          ", "Halb / Halb   ", "Links | Rechts"};
-const CRGB drinkColors[]{CRGB::DarkRed, CRGB::Cyan};
+
 uint8_t menuState = 0;
 uint8_t menuCursor = 0;
 const char *moveOptions[] = {"X Axis", "Y Axis", "Pump 1", "Pump 2"};
@@ -53,27 +45,11 @@ void menu_init() {
   lcd.createChar(1, downArrowChar);
   lcd.createChar(2, upArrowChar);
 
-  FastLED.addLeds<CHIPSET, WS2812_Pin, COLOR_ORDER>(leds, NUM_LEDS);
-
   for (auto &&btn : buttons) {
     pinMode(btn.BtnPin, INPUT);
-    leds[btn.id] = btn.LedColor;
-  }
-  for (uint8_t i = 4; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Cyan;
   }
 
-  FastLED.show();
-
-  delay(200);
-
-  for (auto &&btn : buttons) {
-    leds[btn.id] = CRGB::Black;
-  }
-  for (uint8_t i = 4; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Black;
-  }
-  FastLED.show();
+  led_init();
 
   menu_print(0, 0, "Startup...");
 }
@@ -92,56 +68,6 @@ void setButtonColors(CRGB b0, CRGB b1, CRGB b2, CRGB b3) {
   buttons[1].LedColor = b1;
   buttons[2].LedColor = b2;
   buttons[3].LedColor = b3;
-}
-
-void clearLedStrip() {
-  for (uint8_t i = 4; i < NUM_LEDS; i++) {
-    leds[i] = CRGB::Black;
-  }
-}
-
-void showMl(uint8_t ml) {
-  clearLedStrip();
-  uint8_t mlLedCount = map(ml, 0, 48, 0, 24);
-
-  for (uint8_t i = NUM_LEDS - 1; i > NUM_LEDS - mlLedCount - 1; i--) {
-    if (selectedDrink < 2)
-      leds[i] = drinkColors[selectedDrink];
-    else
-      leds[i] = drinkColors[i % 2];
-  }
-}
-
-void showDrinkColor(uint8_t selectedDrink) {
-  if (selectedDrink < 2) {
-    for (uint8_t i = 4; i < NUM_LEDS; i++) {
-      leds[i] = drinkColors[selectedDrink];
-    }
-  } else if (selectedDrink == 2) {
-    for (uint8_t i = 4; i < NUM_LEDS; i++) {
-      leds[i] = drinkColors[i % 2];
-    }
-  } else {
-    for (uint8_t i = 4; i < 11; i++) {
-      leds[i] = CRGB::Black;
-    }
-    for (uint8_t i = 11; i < 20; i++) {
-      leds[i] = drinkColors[1];
-    }
-    for (uint8_t i = 20; i < NUM_LEDS; i++) {
-      leds[i] = drinkColors[0];
-    }
-  }
-}
-
-void showCount(uint8_t selectedCount) {
-  clearLedStrip();
-  for (uint8_t i = NUM_LEDS - 1; i > NUM_LEDS - selectedCount - 1; i--) {
-    if (selectedDrink < 2)
-      leds[i] = drinkColors[selectedDrink];
-    else
-      leds[i] = drinkColors[i % 2];
-  }
 }
 
 template <class... A>
@@ -193,7 +119,7 @@ void updateDisplay() {
       menu_printf(0, 2, "        %02d ml       ", selectedML);
       menu_print(0, 3, "[Fill] [-] [+] [esc]");
       setButtonColors(CRGB::Green, CRGB::Blue, CRGB::Orange, CRGB::DarkRed);
-      showMl(selectedML);
+      showMl(selectedML, selectedDrink);
       break;
     case 20:  // Drink Menu
       menu_print(0, 1, "   Drink Selection  ");
@@ -207,7 +133,7 @@ void updateDisplay() {
       menu_printf(0, 2, "         %02d         ", selectedCount);
       menu_print(0, 3, "[Fill] [-] [+] [esc]");
       setButtonColors(CRGB::Green, CRGB::Blue, CRGB::Orange, CRGB::DarkRed);
-      showCount(selectedCount);
+      showCount(selectedCount, selectedDrink);
       break;
     case 40:  // Move Menu
       menu_print(0, 1, "    Move    ");
@@ -232,7 +158,7 @@ bool buttonRead(Button btn) { return !digitalRead(btn.BtnPin); }
 void updateButtons() {
   for (auto &&btn : buttons) {
     button_keyDown[btn.id] = false;
-    leds[btn.id] = btn.LedColor;
+    updateButtonLeds(btn.id, btn.LedColor);
     if (millis() - btn.lastPress < 50) continue;
     btn.lastPress = millis();
     btn.BtnStateLast = btn.BtnState;
