@@ -134,6 +134,16 @@ void showDrinkColor(uint8_t selectedDrink) {
   }
 }
 
+void showCount(uint8_t selectedCount) {
+  clearLedStrip();
+  for (uint8_t i = NUM_LEDS - 1; i > NUM_LEDS - selectedCount - 1; i--) {
+    if (selectedDrink < 2)
+      leds[i] = drinkColors[selectedDrink];
+    else
+      leds[i] = drinkColors[i % 2];
+  }
+}
+
 template <class... A>
 void menu_printf(uint8_t x, uint8_t y, const char *format, A... args) {
   lcd.setCursor(x, y);
@@ -197,6 +207,7 @@ void updateDisplay() {
       menu_printf(0, 2, "         %02d         ", selectedCount);
       menu_print(0, 3, "[Fill] [-] [+] [esc]");
       setButtonColors(CRGB::Green, CRGB::Blue, CRGB::Orange, CRGB::DarkRed);
+      showCount(selectedCount);
       break;
     case 40:  // Move Menu
       menu_print(0, 1, "    Move    ");
