@@ -85,7 +85,7 @@ void showCount(uint8_t selectedCount, uint8_t selectedDrink) {
 void updateAnimation() {
   if (state != 0 && menuState < 10) return;
   for (uint8_t i = 4; i < NUM_LEDS; i++) {
-    leds[i] = CHSV(animationStep + i * 11, 255, 255);
+    leds[i] = CHSV(animationStep + i * 11, 255, 200);
   }
 }
 
