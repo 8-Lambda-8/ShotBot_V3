@@ -92,7 +92,7 @@ void updateAnimation() {
 uint32_t animationStepTimer = 0;
 
 void led_loop() {
-  if (millis() - animationStepTimer > 20) {
+  if (millis() - animationStepTimer > 10) {
     animationStepTimer = millis();
     animationStep++;
 
