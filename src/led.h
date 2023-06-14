@@ -15,6 +15,7 @@
 const CRGB btnStartupColors[] = {CRGB::Red, CRGB::Green, CRGB::Blue, CRGB::Yellow};
 
 void led_init();
+void led_loop();
 
 void updateButtonLeds(uint8_t id, CRGB col);
 

@@ -163,4 +163,5 @@ void loop() {
   move_loop();
   pump_loop();
   menu_loop();
+  led_loop();
 }
