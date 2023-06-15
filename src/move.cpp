@@ -52,14 +52,14 @@ void sense_home() {
   stepper_X.setSpeed(speed_sense * steps_per_mm_X);
   stepper_Y.setSpeed(speed_sense * steps_per_mm_Y);
 
-  menu_print(0, 1, "Sense Home Y");
+  menu_print(0, 1, "Sense Home Y        ");
   stepper_Y.move(2000 * steps_per_mm_Y);
   while (digitalRead(SW_PIN_Y)) {
     stepper_Y.runSpeed();
   }
   stepper_Y.setCurrentPosition(homeOffset_Y * steps_per_mm_Y);
 
-  menu_print(0, 1, "Sense Home X");
+  menu_print(0, 1, "Sense Home X        ");
   stepper_X.move(-2000 * steps_per_mm_X);
   while (digitalRead(SW_PIN_X)) {
     stepper_X.runSpeed();
