@@ -2,8 +2,13 @@
 
 AsyncWebServer server(80);
 DNSServer dns;
+WiFiUDP Udp;
+
+const unsigned int rxPort = 8001;
 
 bool shouldSaveConfig = false;
+
+extern uint8_t state;
 
 // callback notifying us of the need to save config
 void saveConfigCallback() {
@@ -36,16 +41,31 @@ void wifi_init() {
     ESP.restart();
     delay(5000);
   }
-  Serial.println(wifiManager.infoAsString());
+
   menu_print(0, 2, WiFi.localIP().toString());
 
   ArduinoOTA.setHostname("ShotBot");
   ArduinoOTA.onStart(menu_OTA_Start);
   ArduinoOTA.onProgress(menu_OTA_Progress);
   ArduinoOTA.begin();
+
+  // OSC:
+  Udp.begin(rxPort);
 }
 
+void routeFill(OSCMessage& msg) { state = 10; }
+
+uint16_t size = 0;
+
 void wifi_loop() {
-  //
+  if (state != 0) return;
   ArduinoOTA.handle();
+
+  OSCMessage msg;
+  size = Udp.parsePacket();
+  if (size > 0) {
+    while (size--) msg.fill(Udp.read());
+    if (msg.hasError()) return;
+    msg.dispatch("/ShotBot/fill", routeFill);
+  }
 }
