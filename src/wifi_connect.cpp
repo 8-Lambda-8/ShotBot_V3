@@ -54,6 +54,10 @@ void wifi_init() {
 }
 
 void routeFill(OSCMessage& msg) { state = 10; }
+void routeDrink(OSCMessage& msg) {
+  uint8_t drink = msg.getInt(0);
+  if (drink < 4) selectedDrink = drink;
+}
 
 uint16_t size = 0;
 
@@ -67,5 +71,6 @@ void wifi_loop() {
     while (size--) msg.fill(Udp.read());
     if (msg.hasError()) return;
     msg.dispatch("/ShotBot/fill", routeFill);
+    msg.dispatch("/ShotBot/drink", routeDrink);
   }
 }
