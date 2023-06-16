@@ -109,7 +109,7 @@ void loop() {
       case 11:  // sense Glass
         Serial.print("11 senseGlass:  ");
 
-        if (analogRead(SENSOR_Pin) < 3000) {
+        if (!digitalRead(SENSOR_Pin)) {
           Serial.println("Glass ");
           state++;
           filledCount++;
