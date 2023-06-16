@@ -58,6 +58,10 @@ void routeDrink(OSCMessage& msg) {
   uint8_t drink = msg.getInt(0);
   if (drink < 4) selectedDrink = drink;
 }
+void routeCount(OSCMessage& msg) {
+  uint8_t cnt = msg.getInt(0);
+  if (cnt < 24) selectedCount = cnt;
+}
 
 uint16_t size = 0;
 
@@ -72,5 +76,6 @@ void wifi_loop() {
     if (msg.hasError()) return;
     msg.dispatch("/ShotBot/fill", routeFill);
     msg.dispatch("/ShotBot/drink", routeDrink);
+    msg.dispatch("/ShotBot/count", routeCount);
   }
 }
