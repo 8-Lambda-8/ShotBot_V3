@@ -9,6 +9,9 @@ const unsigned int rxPort = 8001;
 bool shouldSaveConfig = false;
 
 extern uint8_t state;
+extern uint8_t selectedDrink;
+extern uint8_t selectedCount;
+extern uint8_t selectedML;
 
 // callback notifying us of the need to save config
 void saveConfigCallback() {
@@ -62,6 +65,10 @@ void routeCount(OSCMessage& msg) {
   uint8_t cnt = msg.getInt(0);
   if (cnt < 24) selectedCount = cnt;
 }
+void routeML(OSCMessage& msg) {
+  uint8_t ml = msg.getInt(0);
+  if (ml < 40) selectedML = ml;
+}
 
 uint16_t size = 0;
 
@@ -77,5 +84,6 @@ void wifi_loop() {
     msg.dispatch("/ShotBot/fill", routeFill);
     msg.dispatch("/ShotBot/drink", routeDrink);
     msg.dispatch("/ShotBot/count", routeCount);
+    msg.dispatch("/ShotBot/ml", routeML);
   }
 }
