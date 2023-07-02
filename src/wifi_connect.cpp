@@ -12,6 +12,8 @@ extern uint8_t state;
 extern uint8_t selectedDrink;
 extern uint8_t selectedCount;
 extern uint8_t selectedML;
+extern uint8_t animation;
+extern uint8_t animationHue;
 
 // callback notifying us of the need to save config
 void saveConfigCallback() {
@@ -69,6 +71,14 @@ void routeML(OSCMessage& msg) {
   uint8_t ml = msg.getInt(0);
   if (ml < 40) selectedML = ml;
 }
+void routeAnimation(OSCMessage& msg) {
+  //
+  animation = msg.getInt(0);
+}
+void routeAnimationHue(OSCMessage& msg) {
+  // convert hue degrees to byte
+  animationHue = (msg.getInt(0) / 360) * 255;
+}
 
 uint16_t size = 0;
 
@@ -85,5 +95,7 @@ void wifi_loop() {
     msg.dispatch("/ShotBot/drink", routeDrink);
     msg.dispatch("/ShotBot/count", routeCount);
     msg.dispatch("/ShotBot/ml", routeML);
+    msg.dispatch("/ShotBot/animation", routeAnimation);
+    msg.dispatch("/ShotBot/animation/hue", routeAnimationHue);
   }
 }

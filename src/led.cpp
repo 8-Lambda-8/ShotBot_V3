@@ -5,6 +5,13 @@ CRGB leds[NUM_LEDS];
 uint8_t animationStep = 0;
 extern uint8_t state;
 extern uint8_t menuState;
+extern uint8_t animationHue = 0;
+extern uint8_t animation = 10;
+/**
+ * 00 Off
+ * 10 Rainbow
+ * 20 Breathing
+ */
 
 const CRGB drinkColors[]{CRGB::DarkRed, CRGB::Cyan};
 
@@ -84,8 +91,15 @@ void showCount(uint8_t selectedCount, uint8_t selectedDrink) {
 
 void updateAnimation() {
   if (state != 0 && menuState < 10) return;
-  for (uint8_t i = 4; i < NUM_LEDS; i++) {
-    leds[i] = CHSV(animationStep + i * 11, 255, 200);
+  if (animation == 10) {  // Rainbow
+    for (uint8_t i = 4; i < NUM_LEDS; i++) {
+      leds[i] = CHSV(animationStep + i * 11, 255, 255);
+    }
+  } else if (animation == 20) {  // Breathing
+    for (uint8_t i = 4; i < NUM_LEDS; i++) {
+      leds[i] = CHSV(animationHue, 255,
+                     animationStep > 128 ? 255 - (animationStep - 128) * 2 : animationStep * 2);
+    }
   }
 }
 
