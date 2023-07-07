@@ -79,6 +79,10 @@ void routeAnimationHue(OSCMessage& msg) {
   // convert hue degrees to byte
   animationHue = (msg.getInt(0) / 360) * 255;
 }
+void routeBrightness(OSCMessage& msg) {
+  if (!(msg.getInt(0) > 0 && msg.getInt(0) < 256)) return;
+  setBrightness(msg.getInt(0));
+}
 
 uint16_t size = 0;
 
@@ -97,5 +101,6 @@ void wifi_loop() {
     msg.dispatch("/ShotBot/ml", routeML);
     msg.dispatch("/ShotBot/animation", routeAnimation);
     msg.dispatch("/ShotBot/animation/hue", routeAnimationHue);
+    msg.dispatch("/ShotBot/animation/brightness", routeBrightness);
   }
 }

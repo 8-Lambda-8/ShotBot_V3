@@ -20,6 +20,7 @@ void led_loop();
 void updateButtonLeds(uint8_t id, CRGB col);
 
 void clearLedStrip();
+void setBrightness(uint8_t b);
 void showMl(uint8_t ml, uint8_t selectedDrink, uint8_t max);
 void showDrinkColor(uint8_t selectedDrink);
 void showCount(uint8_t selectedCount, uint8_t selectedDrink);

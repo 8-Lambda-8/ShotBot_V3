@@ -45,6 +45,8 @@ void clearLedStrip() {
   }
 }
 
+void setBrightness(uint8_t b) { FastLED.setBrightness(b); }
+
 void showMl(uint8_t ml, uint8_t selectedDrink, uint8_t max) {
   clearLedStrip();
   uint8_t mlLedCount = map(ml, 0, max, 0, 24);
